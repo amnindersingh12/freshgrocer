@@ -1,0 +1,138 @@
+<%# Admin Product Listing %>
+<div class="p-6">
+  <%# Page Header %>
+  <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Products</h1>
+      <p class="text-gray-600 mt-2">Manage your product catalog</p>
+    </div>
+    <%= link_to "Add New Product", new_admin_product_path,
+        class: "mt-4 sm:mt-0 inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium" %>
+  </div>
+
+  <%# Search and Filters %>
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <%= form_with url: admin_products_path, method: :get, class: "flex flex-col md:flex-row gap-4" do |f| %>
+      <div class="flex-1">
+        <%= f.text_field :search,
+            value: params[:search],
+            placeholder: "Search products...",
+            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" %>
+      </div>
+
+      <div class="w-full md:w-48">
+        <%= f.select :category_id,
+            options_from_collection_for_select(Category.all, :id, :name, params[:category_id]),
+            { include_blank: "All Categories" },
+            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" %>
+      </div>
+
+      <div class="w-full md:w-48">
+        <%= f.select :status,
+            options_for_select([['All Products', ''], ['Active', 'active'], ['Archived', 'archived']], params[:status]),
+            {},
+            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500" %>
+      </div>
+
+      <%= f.submit "Search", class: "px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium cursor-pointer" %>
+    <% end %>
+  </div>
+
+  <%# Products Table %>
+  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @products.each do |product| %>
+            <tr class="<%= 'bg-gray-50' if product.discarded? %>">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-12 w-12 bg-gray-200 rounded-lg"></div>
+                  <div class="ml-4">
+                    <div class="font-medium text-gray-900">
+                      <%= product.name %>
+                      <% if product.discarded? %>
+                        <span class="ml-2 px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded">Archived</span>
+                      <% end %>
+                    </div>
+                    <div class="text-sm text-gray-500"><%= product.slug %></div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900"><%= product.category.name %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">
+                  $<%= number_with_precision(product.base_price, precision: 2) %>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% total_stock = product.product_variants.sum(:stock_quantity) %>
+                <div class="text-sm text-gray-900">
+                  <%= total_stock %>
+                  <% if total_stock == 0 %>
+                    <span class="ml-2 px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded">Out of Stock</span>
+                  <% elsif total_stock < 10 %>
+                    <span class="ml-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded">Low Stock</span>
+                  <% end %>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <% if product.discarded? %>
+                  <span class="px-3 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Archived</span>
+                <% else %>
+                  <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Active</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div class="flex items-center justify-end space-x-2">
+                  <%= link_to "View", admin_product_path(product), class: "text-blue-600 hover:text-blue-900" %>
+
+                  <% unless product.discarded? %>
+                    <%= link_to "Edit", edit_admin_product_path(product), class: "text-green-600 hover:text-green-900" %>
+                    <%= button_to "Archive",
+                        archive_admin_product_path(product),
+                        method: :patch,
+                        data: { turbo_confirm: "Archive this product?" },
+                        class: "text-red-600 hover:text-red-900" %>
+                  <% else %>
+                    <%= button_to "Restore",
+                        restore_admin_product_path(product),
+                        method: :patch,
+                        class: "text-green-600 hover:text-green-900" %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <%# Empty State %>
+    <% if @products.empty? %>
+      <div class="text-center py-12">
+        <p class="text-gray-500 mb-4">No products found</p>
+        <%= link_to "Add Your First Product", new_admin_product_path, class: "text-green-600 hover:text-green-700 font-medium" %>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Pagination %>
+  <% if @products.any? %>
+    <div class="mt-6">
+      <%= paginate @products %>
+    </div>
+  <% end %>
+</div>

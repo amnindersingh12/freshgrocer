@@ -1,0 +1,22 @@
+# PostgreSQL.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: freshg
+  # Use the default superuser that already exists
+  username: vscode
+  # No password is needed for local connections in this setup
+
+test:
+  <<: *default
+  database: your_app_test
+  username: vscode
+
+production:
+  <<: *default
+  database: freshgT
+  username: vscode

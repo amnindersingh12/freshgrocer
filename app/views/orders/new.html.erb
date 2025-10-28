@@ -1,0 +1,208 @@
+<%# Multi-Step Checkout %>
+<div class="bg-gray-50 min-h-screen py-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <%# Page Header %>
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+
+    <%# Progress Steps %>
+    <div class="mb-8">
+      <div class="flex items-center justify-between">
+        <%# Step 1: Address %>
+        <div class="flex-1 flex items-center">
+          <div class="<%= @step == 'address' ? 'bg-green-600 text-white' : @step.in?(['delivery', 'payment']) ? 'bg-green-600 text-white' : 'bg-gray-300 text-gray-600' %> rounded-full h-10 w-10 flex items-center justify-center font-bold">
+            1
+          </div>
+          <div class="ml-3 flex-1">
+            <p class="text-sm font-medium <%= @step == 'address' ? 'text-green-600' : @step.in?(['delivery', 'payment']) ? 'text-green-600' : 'text-gray-500' %>">
+              Step 1
+            </p>
+            <p class="text-xs text-gray-600">Address</p>
+          </div>
+          <div class="flex-1 h-1 <%= @step.in?(['delivery', 'payment']) ? 'bg-green-600' : 'bg-gray-300' %> hidden sm:block"></div>
+        </div>
+
+        <%# Step 2: Delivery %>
+        <div class="flex-1 flex items-center">
+          <div class="<%= @step == 'delivery' ? 'bg-green-600 text-white' : @step == 'payment' ? 'bg-green-600 text-white' : 'bg-gray-300 text-gray-600' %> rounded-full h-10 w-10 flex items-center justify-center font-bold">
+            2
+          </div>
+          <div class="ml-3 flex-1">
+            <p class="text-sm font-medium <%= @step == 'delivery' ? 'text-green-600' : @step == 'payment' ? 'text-green-600' : 'text-gray-500' %>">
+              Step 2
+            </p>
+            <p class="text-xs text-gray-600">Delivery</p>
+          </div>
+          <div class="flex-1 h-1 <%= @step == 'payment' ? 'bg-green-600' : 'bg-gray-300' %> hidden sm:block"></div>
+        </div>
+
+        <%# Step 3: Payment %>
+        <div class="flex items-center">
+          <div class="<%= @step == 'payment' ? 'bg-green-600 text-white' : 'bg-gray-300 text-gray-600' %> rounded-full h-10 w-10 flex items-center justify-center font-bold">
+            3
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium <%= @step == 'payment' ? 'text-green-600' : 'text-gray-500' %>">
+              Step 3
+            </p>
+            <p class="text-xs text-gray-600">Payment</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Step Content %>
+    <div class="bg-white rounded-lg shadow-md p-6 sm:p-8">
+      <% case @step %>
+      <% when 'address' %>
+        <%# Step 1: Select or Add Address %>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Select Delivery Address</h2>
+
+        <%= form_with url: orders_path, method: :post, class: "space-y-6" do |f| %>
+          <%= f.hidden_field :step, value: 'address' %>
+
+          <% if @addresses.any? %>
+            <%# Existing Addresses %>
+            <div class="space-y-4">
+              <% @addresses.each do |address| %>
+                <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-green-500 transition">
+                  <%= f.radio_button :address_id, address.id, class: "mt-1 mr-3" %>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900"><%= address.street %></p>
+                    <p class="text-sm text-gray-600"><%= address.city %>, <%= address.state %> <%= address.zip_code %></p>
+                    <p class="text-sm text-gray-600"><%= address.country %></p>
+                  </div>
+                </label>
+              <% end %>
+            </div>
+
+            <%# Add New Address Link %>
+            <div class="text-center">
+              <%= link_to "Add New Address", new_account_address_path, class: "text-green-600 hover:text-green-700 font-medium" %>
+            </div>
+          <% else %>
+            <%# No Addresses %>
+            <div class="text-center py-8">
+              <p class="text-gray-600 mb-4">You haven't added any addresses yet.</p>
+              <%= link_to "Add Address", new_account_address_path, class: "inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium" %>
+            </div>
+          <% end %>
+
+          <%# Continue Button %>
+          <% if @addresses.any? %>
+            <div class="flex justify-end">
+              <%= f.submit "Continue to Delivery", class: "px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold min-h-12 cursor-pointer" %>
+            </div>
+          <% end %>
+        <% end %>
+
+      <% when 'delivery' %>
+        <%# Step 2: Select Delivery Slot %>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Select Delivery Time</h2>
+
+        <%= form_with url: orders_path, method: :post, class: "space-y-6" do |f| %>
+          <%= f.hidden_field :step, value: 'delivery' %>
+
+          <% if @delivery_slots.any? %>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <% @delivery_slots.each do |slot| %>
+                <label class="flex items-start p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-green-500 transition">
+                  <%= f.radio_button :delivery_slot_id, slot.id, class: "mt-1 mr-3" %>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900"><%= slot.start_time.strftime('%A, %B %d') %></p>
+                    <p class="text-sm text-gray-600">
+                      <%= slot.start_time.strftime('%I:%M %p') %> - <%= slot.end_time.strftime('%I:%M %p') %>
+                    </p>
+                    <span class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">
+                      Available
+                    </span>
+                  </div>
+                </label>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-8">
+              <p class="text-red-600">No delivery slots available. Please try again later.</p>
+            </div>
+          <% end %>
+
+          <%# Navigation Buttons %>
+          <div class="flex justify-between">
+            <%= link_to "Back to Address", new_order_path(step: 'address'), class: "px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium" %>
+            <% if @delivery_slots.any? %>
+              <%= f.submit "Continue to Payment", class: "px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold min-h-12 cursor-pointer" %>
+            <% end %>
+          </div>
+        <% end %>
+
+      <% when 'payment' %>
+        <%# Step 3: Payment (Mock) %>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Payment Information</h2>
+
+        <%# Order Summary %>
+        <div class="mb-8 p-6 bg-gray-50 rounded-lg">
+          <h3 class="font-semibold text-gray-900 mb-4">Order Summary</h3>
+          <div class="space-y-2">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Subtotal:</span>
+              <span class="font-semibold">$<%= number_with_precision(@cart.total_price, precision: 2) %></span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Shipping:</span>
+              <span class="font-semibold text-green-600">FREE</span>
+            </div>
+            <div class="border-t border-gray-300 pt-2 flex justify-between text-lg font-bold">
+              <span>Total:</span>
+              <span class="text-green-600">$<%= number_with_precision(@cart.total_price, precision: 2) %></span>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-gray-300">
+            <p class="text-sm text-gray-600"><strong>Delivery Address:</strong></p>
+            <p class="text-sm"><%= @selected_address&.full_address %></p>
+          </div>
+
+          <div class="mt-4">
+            <p class="text-sm text-gray-600"><strong>Delivery Time:</strong></p>
+            <p class="text-sm"><%= @selected_slot&.time_range %></p>
+          </div>
+        </div>
+
+        <%# Mock Payment Form %>
+        <%= form_with url: orders_path, method: :post, class: "space-y-6" do |f| %>
+          <%= f.hidden_field :step, value: 'payment' %>
+
+          <div class="p-6 bg-blue-50 border border-blue-200 rounded-lg">
+            <p class="text-sm text-blue-900 font-medium">💳 Mock Payment (Development Mode)</p>
+            <p class="text-sm text-blue-700 mt-2">
+              This is a demonstration checkout. Click "Place Order" to simulate payment and complete your order.
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Card Number (Demo)</label>
+            <input type="text" value="4242 4242 4242 4242" disabled class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500">
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Expiry (Demo)</label>
+              <input type="text" value="12/25" disabled class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">CVV (Demo)</label>
+              <input type="text" value="123" disabled class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500">
+            </div>
+          </div>
+
+          <%# Navigation Buttons %>
+          <div class="flex justify-between">
+            <%= link_to "Back to Delivery", new_order_path(step: 'delivery'), class: "px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium" %>
+            <%= f.submit "Place Order",
+                data: { turbo_confirm: "Confirm order for $#{number_with_precision(@cart.total_price, precision: 2)}?" },
+                class: "px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold text-lg min-h-12 cursor-pointer" %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

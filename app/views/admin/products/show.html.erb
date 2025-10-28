@@ -1,0 +1,151 @@
+<%# Admin Product Detail %>
+<div class="p-6">
+  <%# Breadcrumb %>
+  <nav class="mb-6 text-sm">
+    <%= link_to "Products", admin_products_path, class: "text-green-600 hover:text-green-700" %>
+    <span class="mx-2 text-gray-400">/</span>
+    <span class="text-gray-600"><%= @product.name %></span>
+  </nav>
+
+  <%# Page Header %>
+  <div class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900"><%= @product.name %></h1>
+      <p class="text-gray-600 mt-2">SKU: <%= @product.slug %></p>
+    </div>
+    <div class="mt-4 sm:mt-0 flex gap-2">
+      <%= link_to "Edit Product", edit_admin_product_path(@product),
+          class: "px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <%# Product Details %>
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Product Information</h2>
+
+        <dl class="space-y-4">
+          <div>
+            <dt class="text-sm font-medium text-gray-600">Name</dt>
+            <dd class="mt-1 text-lg text-gray-900"><%= @product.name %></dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-600">Description</dt>
+            <dd class="mt-1 text-gray-900"><%= @product.description || 'No description provided' %></dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-600">Category</dt>
+            <dd class="mt-1 text-gray-900"><%= @product.category.name %></dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-600">Base Price</dt>
+            <dd class="mt-1 text-lg font-bold text-green-600">$<%= number_with_precision(@product.base_price, precision: 2) %></dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-600">URL Slug</dt>
+            <dd class="mt-1 text-gray-900 font-mono"><%= @product.slug %></dd>
+          </div>
+        </dl>
+      </div>
+
+      <%# Product Variants %>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-semibold text-gray-900">Product Variants</h2>
+          <%= link_to "Add Variant", new_admin_product_product_variant_path(@product),
+              class: "px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium text-sm" %>
+        </div>
+
+        <% if @product.product_variants.any? %>
+          <div class="overflow-x-auto">
+            <table class="min-w-full">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Variant</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
+                  <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <% @product.product_variants.each do |variant| %>
+                  <tr>
+                    <td class="px-4 py-3 text-sm text-gray-900"><%= variant.variant_name %></td>
+                    <td class="px-4 py-3 text-sm text-gray-900">$<%= number_with_precision(variant.price, precision: 2) %></td>
+                    <td class="px-4 py-3 text-sm">
+                      <%= variant.stock_quantity %>
+                      <% if variant.stock_quantity == 0 %>
+                        <span class="ml-2 px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded">Out</span>
+                      <% end %>
+                    </td>
+                    <td class="px-4 py-3 text-right text-sm">
+                      <%= link_to "Edit", edit_admin_product_product_variant_path(@product, variant),
+                          class: "text-green-600 hover:text-green-900" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <p class="text-gray-500 text-center py-8">No variants added yet</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Sidebar %>
+    <div class="lg:col-span-1 space-y-6">
+      <%# Status Card %>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Status</h3>
+        <% if @product.discarded? %>
+          <span class="inline-block px-4 py-2 bg-red-100 text-red-800 font-medium rounded-lg mb-4">Archived</span>
+          <%= button_to "Restore Product", restore_admin_product_path(@product),
+              method: :patch,
+              class: "w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium" %>
+        <% else %>
+          <span class="inline-block px-4 py-2 bg-green-100 text-green-800 font-medium rounded-lg mb-4">Active</span>
+          <%= button_to "Archive Product", archive_admin_product_path(@product),
+              method: :patch,
+              data: { turbo_confirm: "Archive this product?" },
+              class: "w-full px-4 py-2 border border-red-600 text-red-600 rounded-lg hover:bg-red-50 font-medium" %>
+        <% end %>
+      </div>
+
+      <%# Inventory Summary %>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Inventory</h3>
+        <dl class="space-y-2">
+          <div class="flex justify-between">
+            <dt class="text-sm text-gray-600">Total Stock:</dt>
+            <dd class="text-sm font-semibold text-gray-900"><%= @product.product_variants.sum(:stock_quantity) %></dd>
+          </div>
+          <div class="flex justify-between">
+            <dt class="text-sm text-gray-600">Variants:</dt>
+            <dd class="text-sm font-semibold text-gray-900"><%= @product.product_variants.count %></dd>
+          </div>
+        </dl>
+      </div>
+
+      <%# Timestamps %>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Details</h3>
+        <dl class="space-y-2 text-xs">
+          <div>
+            <dt class="text-gray-600">Created:</dt>
+            <dd class="text-gray-900"><%= @product.created_at.strftime('%B %d, %Y') %></dd>
+          </div>
+          <div>
+            <dt class="text-gray-600">Last Updated:</dt>
+            <dd class="text-gray-900"><%= @product.updated_at.strftime('%B %d, %Y') %></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>

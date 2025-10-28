@@ -1,0 +1,49 @@
+<%# Flash messages partial for displaying success/error notifications %>
+<% if defined?(type) && defined?(message) %>
+  <div data-controller="flash" data-flash-dismiss-after-value="3000"
+       class="fixed top-20 right-4 z-40 max-w-sm w-full sm:w-96 <%= type == 'success' ? 'bg-green-500' : 'bg-red-500' %> text-white px-4 py-3 rounded-lg shadow-lg flex items-center justify-between animate-slide-in"
+       data-action="click->flash#dismiss">
+    <div class="flex items-center">
+      <% if type == 'success' %>
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      <% else %>
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      <% end %>
+      <span class="text-sm sm:text-base"><%= message %></span>
+    </div>
+    <button type="button" class="ml-4 text-white hover:text-gray-200" data-action="flash#dismiss">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+<% end %>
+
+<%# Display flash messages from controller %>
+<% flash.each do |type, message| %>
+  <div data-controller="flash" data-flash-dismiss-after-value="3000"
+       class="fixed top-20 right-4 z-40 max-w-sm w-full sm:w-96 <%= type.to_s.include?('success') || type.to_s.include?('notice') ? 'bg-green-500' : 'bg-red-500' %> text-white px-4 py-3 rounded-lg shadow-lg flex items-center justify-between animate-slide-in"
+       data-action="click->flash#dismiss">
+    <div class="flex items-center">
+      <% if type.to_s.include?('success') || type.to_s.include?('notice') %>
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      <% else %>
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      <% end %>
+      <span class="text-sm sm:text-base"><%= message %></span>
+    </div>
+    <button type="button" class="ml-4 text-white hover:text-gray-200" data-action="flash#dismiss">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+<% end %>

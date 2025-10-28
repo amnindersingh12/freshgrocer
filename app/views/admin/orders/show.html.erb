@@ -1,0 +1,61 @@
+<%# Admin Order Detail %>
+<div class="p-6">
+  <nav class="mb-6 text-sm">
+    <%= link_to "Orders", admin_orders_path, class: "text-green-600" %> / Order #<%= @order.id %>
+  </nav>
+
+  <div class="mb-8 flex justify-between items-start">
+    <div>
+      <h1 class="text-3xl font-bold">Order #<%= @order.id %></h1>
+      <p class="text-gray-600"><%= @order.created_at.strftime('%B %d, %Y at %I:%M %p') %></p>
+    </div>
+
+    <%= form_with model: [:admin, @order], method: :patch do |f| %>
+      <div class="flex gap-2">
+        <%= f.select :status,
+            Order.aasm(:status).states.map { |s| [s.name.to_s.titleize, s.name] },
+            {},
+            class: "px-4 py-2 border rounded-lg" %>
+        <%= f.submit "Update Status", class: "px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold mb-4">Order Items</h2>
+      <% @order.order_items.each do |item| %>
+        <div class="flex justify-between py-3 border-b">
+          <div>
+            <p class="font-medium"><%= item.product_variant.product.name %></p>
+            <p class="text-sm text-gray-600"><%= item.product_variant.variant_name %> × <%= item.quantity %></p>
+          </div>
+          <p class="font-semibold">$<%= number_with_precision(item.price_at_purchase * item.quantity, precision: 2) %></p>
+        </div>
+      <% end %>
+      <div class="mt-4 pt-4 border-t flex justify-between text-lg font-bold">
+        <span>Total:</span>
+        <span class="text-green-600">$<%= number_with_precision(@order.total_price, precision: 2) %></span>
+      </div>
+    </div>
+
+    <div class="space-y-6">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="font-semibold mb-2">Customer</h3>
+        <p><%= @order.user.email %></p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="font-semibold mb-2">Delivery Address</h3>
+        <p><%= @order.address.street %></p>
+        <p><%= @order.address.city %>, <%= @order.address.state %> <%= @order.address.zip_code %></p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="font-semibold mb-2">Delivery Time</h3>
+        <p><%= @order.delivery_slot.start_time.strftime('%A, %B %d') %></p>
+        <p><%= @order.delivery_slot.start_time.strftime('%I:%M %p') %> - <%= @order.delivery_slot.end_time.strftime('%I:%M %p') %></p>
+      </div>
+    </div>
+  </div>
+</div>

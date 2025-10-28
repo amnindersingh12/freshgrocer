@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin - FreshGrocer</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= hotwire_livereload_tags if Rails.env.development? %>
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="flex h-screen overflow-hidden">
+      <%# Sidebar - collapsible on mobile %>
+      <aside class="hidden lg:flex lg:flex-shrink-0" data-controller="admin-sidebar">
+        <div class="flex flex-col w-64 bg-gray-800">
+          <div class="flex items-center justify-center h-16 bg-gray-900">
+            <%= link_to admin_root_path, class: "text-xl font-bold text-white" do %>
+              🛒 FreshGrocer Admin
+            <% end %>
+          </div>
+
+          <nav class="flex-1 overflow-y-auto">
+            <div class="px-4 py-6 space-y-1">
+              <%= link_to admin_root_path, class: "flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white #{'bg-gray-700 text-white' if current_page?(admin_root_path)}" do %>
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                Dashboard
+              <% end %>
+
+              <%= link_to admin_products_path, class: "flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white #{'bg-gray-700 text-white' if controller_name == 'products' || controller_name == 'product_variants'}" do %>
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Products
+              <% end %>
+
+              <%= link_to admin_categories_path, class: "flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white #{'bg-gray-700 text-white' if controller_name == 'categories'}" do %>
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                Categories
+              <% end %>
+
+              <%= link_to admin_orders_path, class: "flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white #{'bg-gray-700 text-white' if controller_name == 'orders'}" do %>
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                Orders
+              <% end %>
+
+              <%= link_to admin_users_path, class: "flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white #{'bg-gray-700 text-white' if controller_name == 'users'}" do %>
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                Users
+              <% end %>
+            </div>
+          </nav>
+
+          <div class="flex-shrink-0 p-4 border-t border-gray-700">
+            <%= link_to root_path, class: "flex items-center px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white" do %>
+              <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+              </svg>
+              Back to Store
+            <% end %>
+          </div>
+        </div>
+      </aside>
+
+      <%# Main Content Area %>
+      <div class="flex flex-col flex-1 overflow-hidden">
+        <%# Top Navigation %>
+        <header class="flex items-center justify-between px-6 py-4 bg-white border-b">
+          <div class="flex items-center">
+            <button type="button" class="lg:hidden text-gray-500 focus:outline-none" data-controller="mobile-menu" data-action="click->mobile-menu#toggle">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+            <h1 class="text-2xl font-semibold text-gray-800 ml-4 lg:ml-0"><%= yield :page_title %></h1>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-600">Welcome, <%= current_user.name %></span>
+            <%= button_to destroy_user_session_path, method: :delete, class: "px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none" do %>
+              Sign Out
+            <% end %>
+          </div>
+        </header>
+
+        <%# Flash messages container %>
+        <div id="flash" class="px-6 pt-4">
+          <%= render 'shared/flash' %>
+        </div>
+
+        <%# Main Content %>
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+          <div class="container mx-auto px-6 py-8">
+            <%= yield %>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <%# Mobile Sidebar Overlay %>
+    <div class="lg:hidden hidden fixed inset-0 z-50 bg-black bg-opacity-50" data-mobile-menu-target="overlay" data-action="click->mobile-menu#close">
+      <aside class="fixed inset-y-0 left-0 w-64 bg-gray-800 transform transition-transform duration-300" data-mobile-menu-target="sidebar">
+        <div class="flex items-center justify-between h-16 px-4 bg-gray-900">
+          <%= link_to admin_root_path, class: "text-xl font-bold text-white" do %>
+            🛒 Admin
+          <% end %>
+          <button type="button" class="text-white" data-action="click->mobile-menu#close">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <nav class="px-4 py-6 space-y-1">
+          <%= link_to "Dashboard", admin_root_path, class: "block px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white" %>
+          <%= link_to "Products", admin_products_path, class: "block px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white" %>
+          <%= link_to "Categories", admin_categories_path, class: "block px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white" %>
+          <%= link_to "Orders", admin_orders_path, class: "block px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white" %>
+          <%= link_to "Users", admin_users_path, class: "block px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white" %>
+          <%= link_to "Back to Store", root_path, class: "block px-4 py-3 text-sm font-medium text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white" %>
+        </nav>
+      </aside>
+    </div>
+  </body>
+</html>
