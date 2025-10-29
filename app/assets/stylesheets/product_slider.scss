@@ -6,12 +6,31 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  background-color: #f5f5f5;
+  background-color: #111827; // Dark fallback
 
   // Slide container
   [data-product-slider-target="slide"] {
-    transition: opacity 0.6s ease-in-out, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity, transform;
+    transition: opacity 0.6s ease-in-out;
+    will-change: opacity;
+
+    &.block {
+      display: block !important;
+    }
+
+    &.hidden {
+      display: none !important;
+    }
+  }
+
+  // Ensure gradient backgrounds are visible
+  .bg-gradient-to-br {
+    opacity: 1 !important;
+    z-index: 1;
+  }
+
+  // Content should be above gradient
+  .relative.z-10 {
+    z-index: 10 !important;
   }
 
   // Text animation classes

@@ -2,29 +2,191 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* Smooth page transitions */
+  body {
+    @apply bg-background text-text transition-opacity duration-500;
+  }
+
+  /* Calm, readable typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text font-medium;
+  }
+
+  a {
+    @apply text-primary transition-colors duration-300 hover:text-primary-600;
+  }
+
+  /* Smooth focus states for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary/30 ring-offset-2 rounded;
+  }
+}
+
+@layer components {
+  /* Calm button styles */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium
+           transition-all duration-300 ease-out
+           focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-600
+           hover:shadow-md hover:-translate-y-0.5
+           focus-visible:ring-primary/30;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary-600
+           hover:shadow-md hover:-translate-y-0.5
+           focus-visible:ring-secondary/30;
+  }
+
+  .btn-outline {
+    @apply border-2 border-border bg-surface text-text
+           hover:border-primary hover:text-primary hover:shadow-sm
+           focus-visible:ring-primary/30;
+  }
+
+  /* Calm card styles */
+  .card {
+    @apply bg-surface rounded-lg shadow-sm border border-border
+           transition-all duration-300 ease-out
+           hover:shadow-md hover:-translate-y-1;
+  }
+
+  /* Soft input styles */
+  .input {
+    @apply block w-full rounded-lg border border-border bg-surface
+           px-4 py-3 text-text placeholder:text-muted
+           transition-all duration-300
+           focus:border-primary focus:ring-2 focus:ring-primary/20;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .badge-secondary {
+    @apply bg-secondary/10 text-secondary;
+  }
+
+  .badge-accent {
+    @apply bg-accent/10 text-accent;
+  }
+}
+
 @layer utilities {
-  @keyframes slide-in {
+  /* Gentle animations */
+  @keyframes fadeUp {
     from {
-      transform: translateX(100%);
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
       opacity: 0;
     }
     to {
-      transform: translateX(0);
       opacity: 1;
     }
   }
 
-  .animate-slide-in {
-    animation: slide-in 0.3s ease-out;
+  @keyframes gentlePulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes softBounce {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.03);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-gentle-pulse {
+    animation: gentlePulse 2s ease-in-out infinite;
+  }
+
+  .animate-soft-bounce {
+    animation: softBounce 0.4s ease-out;
+  }
+
+  /* Gentle hover effects */
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  .hover-lift-sm {
+    @apply transition-all duration-300 ease-out hover:-translate-y-px hover:shadow-sm;
+  }
+
+  /* Image zoom on hover */
+  .image-zoom {
+    @apply overflow-hidden;
+  }
+
+  .image-zoom img {
+    @apply transition-transform duration-500 ease-out;
+  }
+
+  .image-zoom:hover img {
+    @apply scale-105;
+  }
+
+  /* Soft overlay on hover */
+  .overlay-soft {
+    @apply relative;
+  }
+
+  .overlay-soft::after {
+    @apply content-[''] absolute inset-0 bg-text/0 transition-all duration-300 pointer-events-none;
+  }
+
+  .overlay-soft:hover::after {
+    @apply bg-text/5;
   }
 }
 
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-*/
+/* Turbo page transitions */
+.turbo-progress-bar {
+  @apply bg-primary/30 h-1;
+}
+

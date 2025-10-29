@@ -14,6 +14,7 @@
 
     <%# Slides %>
     <% @products.each_with_index do |product, index| %>
+      <% gradient_class = gradient_classes[index % gradient_classes.length] %>
       <div data-product-slider-target="slide"
            class="absolute inset-0 w-full h-full <%= index == 0 ? 'block' : 'hidden' %>"
            role="group"
@@ -21,16 +22,10 @@
            aria-label="Slide <%= index + 1 %> of <%= @products.count %>">
 
         <%# Background Gradient Overlay %>
-        <div class="absolute inset-0 bg-gradient-to-r <%= gradient_classes[index % gradient_classes.length] %> opacity-95"></div>
+        <div class="absolute inset-0 bg-gradient-to-br <%= gradient_class %>"></div>
 
-        <%# Background Image (Lazy Loaded) %>
-        <img data-src="<%= product_image_url(product) %>"
-             data-fallback="<%= fallback_image_url %>"
-             data-placeholder="<%= fallback_image_url %>"
-             src="<%= fallback_image_url %>"
-             alt="<%= product.name %>"
-             class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30"
-             loading="lazy">
+        <%# Background Pattern Overlay %>
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 32px 32px;"></div>
 
         <%# Content Overlay %>
         <div class="relative z-10 w-full h-full flex items-center">

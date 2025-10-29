@@ -1,22 +1,22 @@
 <%# Homepage - Customer Storefront %>
-<div class="bg-white">
+<div class="bg-background">
   <%# Hero Slider Section %>
-  <section class="relative overflow-hidden" data-controller="hero-slider" data-hero-slider-interval-value="5000">
+  <section class="relative overflow-hidden bg-gradient-to-br from-primary-50 to-secondary-50" data-controller="hero-slider" data-hero-slider-interval-value="5000">
     <div class="relative h-[400px] sm:h-[500px] lg:h-[600px]"
          data-action="mouseenter->hero-slider#pauseOnHover mouseleave->hero-slider#resumeOnLeave">
 
       <%# Slide 1 %>
       <div data-hero-slider-target="slide" class="absolute inset-0 w-full h-full">
-        <div class="bg-gradient-to-r from-green-500 to-green-700 text-white w-full h-full flex items-center">
+        <div class="bg-gradient-to-br from-primary to-primary-700 text-white w-full h-full flex items-center">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div class="text-center">
-              <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            <div class="text-center" data-controller="animate" data-animate-animation-value="fade-up">
+              <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4">
                 Fresh Groceries Delivered to Your Door
               </h1>
-              <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+              <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
                 Shop the freshest produce, dairy, and daily essentials with same-day delivery
               </p>
-              <%= link_to "Shop Now", products_path, class: "inline-block bg-white text-green-600 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg hover:bg-gray-100 transition min-h-12" %>
+              <%= link_to "Shop Now", products_path, class: "btn btn-outline bg-white text-primary hover:bg-white/90" %>
             </div>
           </div>
         </div>
@@ -24,16 +24,16 @@
 
       <%# Slide 2 %>
       <div data-hero-slider-target="slide" class="absolute inset-0 w-full h-full hidden">
-        <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white w-full h-full flex items-center">
+        <div class="bg-gradient-to-br from-secondary to-secondary-700 text-white w-full h-full flex items-center">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="text-center">
-              <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+              <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4">
                 Organic & Fresh Produce
               </h1>
-              <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+              <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
                 100% organic fruits and vegetables sourced from local farms
               </p>
-              <%= link_to "Browse Organic", products_path, class: "inline-block bg-white text-blue-600 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg hover:bg-gray-100 transition min-h-12" %>
+              <%= link_to "Browse Organic", products_path, class: "btn btn-outline bg-white text-secondary hover:bg-white/90" %>
             </div>
           </div>
         </div>
@@ -41,16 +41,16 @@
 
       <%# Slide 3 %>
       <div data-hero-slider-target="slide" class="absolute inset-0 w-full h-full hidden">
-        <div class="bg-gradient-to-r from-purple-500 to-purple-700 text-white w-full h-full flex items-center">
+        <div class="bg-gradient-to-br from-accent to-accent-700 text-white w-full h-full flex items-center">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="text-center">
-              <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+              <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4">
                 Special Offers & Discounts
               </h1>
-              <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+              <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
                 Save up to 30% on weekly deals and seasonal favorites
               </p>
-              <%= link_to "View Deals", products_path, class: "inline-block bg-white text-purple-600 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg hover:bg-gray-100 transition min-h-12" %>
+              <%= link_to "View Deals", products_path, class: "btn btn-outline bg-white text-accent hover:bg-white/90" %>
             </div>
           </div>
         </div>
@@ -58,16 +58,16 @@
 
       <%# Slide 4 %>
       <div data-hero-slider-target="slide" class="absolute inset-0 w-full h-full hidden">
-        <div class="bg-gradient-to-r from-orange-500 to-orange-700 text-white w-full h-full flex items-center">
+        <div class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white w-full h-full flex items-center">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="text-center">
-              <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+              <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4">
                 Fast & Reliable Delivery
               </h1>
-              <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+              <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
                 Order now and get your groceries delivered within 2 hours
               </p>
-              <%= link_to "Order Now", products_path, class: "inline-block bg-white text-orange-600 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg hover:bg-gray-100 transition min-h-12" %>
+              <%= link_to "Order Now", products_path, class: "btn btn-outline bg-white text-primary hover:bg-white/90" %>
             </div>
           </div>
         </div>
@@ -77,14 +77,14 @@
     <%# Navigation Arrows %>
     <button type="button"
             data-action="click->hero-slider#previous"
-            class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-3 rounded-full transition z-10">
+            class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 z-10">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
       </svg>
     </button>
     <button type="button"
             data-action="click->hero-slider#next"
-            class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-3 rounded-full transition z-10">
+            class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 z-10">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
       </svg>
@@ -93,13 +93,13 @@
     <%# Dots Navigation %>
     <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
       <button type="button" data-hero-slider-target="dot" data-index="0" data-action="click->hero-slider#goToSlide"
-              class="w-3 h-3 rounded-full bg-white transition"></button>
+              class="w-3 h-3 rounded-full bg-white/90 transition-all duration-300"></button>
       <button type="button" data-hero-slider-target="dot" data-index="1" data-action="click->hero-slider#goToSlide"
-              class="w-3 h-3 rounded-full bg-white/50 transition"></button>
+              class="w-3 h-3 rounded-full bg-white/40 transition-all duration-300"></button>
       <button type="button" data-hero-slider-target="dot" data-index="2" data-action="click->hero-slider#goToSlide"
-              class="w-3 h-3 rounded-full bg-white/50 transition"></button>
+              class="w-3 h-3 rounded-full bg-white/40 transition-all duration-300"></button>
       <button type="button" data-hero-slider-target="dot" data-index="3" data-action="click->hero-slider#goToSlide"
-              class="w-3 h-3 rounded-full bg-white/50 transition"></button>
+              class="w-3 h-3 rounded-full bg-white/40 transition-all duration-300"></button>
     </div>
   </section>
 
@@ -190,36 +190,36 @@
   <% end %>
 
   <%# Featured Products Section %>
-  <section class="py-12 sm:py-16">
+  <section class="py-12 sm:py-16 bg-background">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Featured Products</h2>
+      <h2 class="text-2xl sm:text-3xl font-semibold text-text mb-8" data-controller="animate" data-animate-animation-value="fade-up">Featured Products</h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <% @featured_products.each do |product| %>
-          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
-            <div class="h-48 bg-gray-200 flex items-center justify-center">
-              <span class="text-6xl">🛒</span>
+        <% @featured_products.each_with_index do |product, index| %>
+          <div class="card hover-lift overflow-hidden" data-controller="animate" data-animate-delay-value="<%= index * 100 %>" data-animate-animation-value="fade-up">
+            <div class="h-48 bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center overflow-hidden">
+              <span class="text-6xl transition-transform duration-300 hover:scale-110">🛒</span>
             </div>
 
             <div class="p-4">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2"><%= product.name %></h3>
-              <p class="text-sm text-gray-600 mb-2 line-clamp-2"><%= product.description %></p>
-              <p class="text-sm text-gray-500 mb-4">Brand: <%= product.brand %></p>
+              <h3 class="text-lg font-semibold text-text mb-2"><%= product.name %></h3>
+              <p class="text-sm text-muted mb-2 line-clamp-2"><%= product.description %></p>
+              <p class="text-sm text-muted mb-4">Brand: <%= product.brand %></p>
 
               <% if product.product_variants.any? %>
-                <p class="text-xl font-bold text-green-600 mb-4">
+                <p class="text-xl font-semibold text-primary mb-4">
                   From $<%= product.product_variants.minimum(:price).to_f.round(2) %>
                 </p>
               <% end %>
 
-              <%= link_to "View Details", product_path(product), class: "block w-full text-center bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition min-h-10", data: { turbo_frame: "_top" } %>
+              <%= link_to "View Details", product_path(product), class: "btn btn-primary w-full", data: { turbo_frame: "_top" } %>
             </div>
           </div>
         <% end %>
       </div>
 
       <% if @featured_products.empty? %>
-        <p class="text-center text-gray-500 py-8">No featured products available yet.</p>
+        <p class="text-center text-muted py-8">No featured products available yet.</p>
       <% end %>
     </div>
   </section>
@@ -267,7 +267,7 @@
         <div class="brand-story-card video-card">
           <div class="video-wrapper">
             <div class="video-thumbnail">
-              <%= image_tag "https://via.placeholder.com/600x400/fcb614/ffffff?text=Jaggery+Mythbusters",
+              <%= image_tag "https://www.pexels.com/download/video/3571264/",
                             alt: "FreshGrocer Mythbusters Video",
                             class: "video-poster",
                             loading: "lazy" %>
@@ -322,52 +322,52 @@
   </section>
 
   <%# Main Categories Section %>
-  <section class="py-12 sm:py-16 bg-gray-50">
+  <section class="py-12 sm:py-16 bg-surface">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Shop by Category</h2>
+      <h2 class="text-2xl sm:text-3xl font-semibold text-text mb-8" data-controller="animate" data-animate-animation-value="fade-up">Shop by Category</h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        <% @main_categories.each do |category| %>
-          <%= link_to category_path(category), class: "block bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition" do %>
+        <% @main_categories.each_with_index do |category, index| %>
+          <%= link_to category_path(category), class: "block card hover-lift p-6", data: { controller: "animate", animate_delay_value: index * 100, animate_animation_value: "fade-up" } do %>
             <div class="text-center">
-              <div class="text-5xl mb-4">📦</div>
-              <h3 class="text-xl font-semibold text-gray-900"><%= category.name %></h3>
-              <p class="text-sm text-gray-600 mt-2"><%= category.products.count %> products</p>
+              <div class="text-5xl mb-4 transition-transform duration-300 hover:scale-110">📦</div>
+              <h3 class="text-xl font-semibold text-text"><%= category.name %></h3>
+              <p class="text-sm text-muted mt-2"><%= category.products.count %> products</p>
             </div>
           <% end %>
         <% end %>
       </div>
 
       <% if @main_categories.empty? %>
-        <p class="text-center text-gray-500 py-8">No categories available yet.</p>
+        <p class="text-center text-muted py-8">No categories available yet.</p>
       <% end %>
 
-      <div class="text-center mt-8">
-        <%= link_to "View All Categories", categories_path, class: "inline-block bg-green-600 text-white font-bold px-6 py-3 rounded-lg hover:bg-green-700 transition min-h-12" %>
+      <div class="text-center mt-8" data-controller="animate" data-animate-animation-value="fade-up" data-animate-delay-value="300">
+        <%= link_to "View All Categories", categories_path, class: "btn btn-primary" %>
       </div>
     </div>
   </section>
 
   <%# Features Section %>
-  <section class="py-12 sm:py-16">
+  <section class="py-12 sm:py-16 bg-background">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <div class="text-5xl mb-4">🚚</div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Fast Delivery</h3>
-          <p class="text-gray-600">Same-day delivery available on all orders</p>
+        <div class="text-center" data-controller="animate" data-animate-delay-value="0" data-animate-animation-value="fade-up">
+          <div class="text-5xl mb-4 transition-transform duration-300 hover:scale-110">🚚</div>
+          <h3 class="text-xl font-semibold text-text mb-2">Fast Delivery</h3>
+          <p class="text-muted">Same-day delivery available on all orders</p>
         </div>
 
-        <div class="text-center">
-          <div class="text-5xl mb-4">✅</div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Quality Guaranteed</h3>
-          <p class="text-gray-600">Fresh products or your money back</p>
+        <div class="text-center" data-controller="animate" data-animate-delay-value="150" data-animate-animation-value="fade-up">
+          <div class="text-5xl mb-4 transition-transform duration-300 hover:scale-110">✅</div>
+          <h3 class="text-xl font-semibold text-text mb-2">Quality Guaranteed</h3>
+          <p class="text-muted">Fresh products or your money back</p>
         </div>
 
-        <div class="text-center">
-          <div class="text-5xl mb-4">💳</div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Secure Payment</h3>
-          <p class="text-gray-600">Safe and secure checkout process</p>
+        <div class="text-center" data-controller="animate" data-animate-delay-value="300" data-animate-animation-value="fade-up">
+          <div class="text-5xl mb-4 transition-transform duration-300 hover:scale-110">💳</div>
+          <h3 class="text-xl font-semibold text-text mb-2">Secure Payment</h3>
+          <p class="text-muted">Safe and secure checkout process</p>
         </div>
       </div>
     </div>

@@ -14,11 +14,11 @@ module Products
 
     def gradient_classes
       [
-        "from-blue-600 to-blue-800",
-        "from-purple-600 to-purple-800",
-        "from-green-600 to-green-800",
-        "from-orange-600 to-orange-800",
-        "from-pink-600 to-pink-800"
+        "from-blue-600 via-blue-700 to-indigo-800",
+        "from-purple-600 via-purple-700 to-pink-800",
+        "from-green-600 via-green-700 to-emerald-800",
+        "from-orange-600 via-orange-700 to-red-800",
+        "from-pink-600 via-pink-700 to-rose-800"
       ]
     end
 

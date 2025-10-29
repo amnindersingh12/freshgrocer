@@ -12,7 +12,7 @@
     <%= hotwire_livereload_tags if Rails.env.development? %>
   </head>
 
-  <body class="bg-gray-50">
+  <body class="bg-background">
     <%# New Header Navigation %>
     <%= render 'shared/header' %>
 
@@ -25,36 +25,36 @@
     </div>
 
     <%# Main content %>
-    <main class="min-h-screen">
+    <main class="min-h-screen transition-opacity duration-500">
       <%= yield %>
     </main>
 
     <%# Footer %>
-    <footer class="bg-gray-800 text-white mt-12">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <footer class="bg-surface border-t border-border mt-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 class="text-lg font-bold mb-4">FreshGrocer</h3>
-            <p class="text-gray-400">Your trusted online grocery store for fresh produce and daily essentials.</p>
+            <h3 class="text-lg font-semibold text-text mb-4">FreshGrocer</h3>
+            <p class="text-muted leading-relaxed">Your trusted online grocery store for fresh produce and daily essentials.</p>
           </div>
           <div>
-            <h3 class="text-lg font-bold mb-4">Quick Links</h3>
-            <ul class="space-y-2">
-              <li><%= link_to "About Us", "#", class: "text-gray-400 hover:text-white" %></li>
-              <li><%= link_to "Contact", "#", class: "text-gray-400 hover:text-white" %></li>
-              <li><%= link_to "Privacy Policy", "#", class: "text-gray-400 hover:text-white" %></li>
+            <h3 class="text-lg font-semibold text-text mb-4">Quick Links</h3>
+            <ul class="space-y-3">
+              <li><%= link_to "About Us", "#", class: "text-muted hover:text-primary transition-colors duration-300" %></li>
+              <li><%= link_to "Contact", "#", class: "text-muted hover:text-primary transition-colors duration-300" %></li>
+              <li><%= link_to "Privacy Policy", "#", class: "text-muted hover:text-primary transition-colors duration-300" %></li>
             </ul>
           </div>
           <div>
-            <h3 class="text-lg font-bold mb-4">Customer Service</h3>
-            <ul class="space-y-2">
-              <li><%= link_to "Help Center", "#", class: "text-gray-400 hover:text-white" %></li>
-              <li><%= link_to "Returns", "#", class: "text-gray-400 hover:text-white" %></li>
-              <li><%= link_to "Shipping Info", "#", class: "text-gray-400 hover:text-white" %></li>
+            <h3 class="text-lg font-semibold text-text mb-4">Customer Service</h3>
+            <ul class="space-y-3">
+              <li><%= link_to "Help Center", "#", class: "text-muted hover:text-primary transition-colors duration-300" %></li>
+              <li><%= link_to "Returns", "#", class: "text-muted hover:text-primary transition-colors duration-300" %></li>
+              <li><%= link_to "Shipping Info", "#", class: "text-muted hover:text-primary transition-colors duration-300" %></li>
             </ul>
           </div>
         </div>
-        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+        <div class="mt-8 pt-8 border-t border-border text-center text-muted">
           <p>&copy; <%= Time.current.year %> FreshGrocer. All rights reserved.</p>
         </div>
       </div>
