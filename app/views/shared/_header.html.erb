@@ -1,0 +1,202 @@
+<%# Navigation Header - Sticky on Scroll Up %>
+<header class="site-header"
+        data-controller="header"
+        data-header-target="header"
+        data-action="scroll@window->header#handleScroll">
+
+  <%# Main Navigation Bar %>
+  <nav class="header-nav">
+    <div class="header-container">
+
+      <%# Mobile: Hamburger Menu %>
+      <button type="button"
+              class="header-icon header-menu-toggle"
+              data-action="click->header#toggleMobileMenu"
+              aria-label="Open menu">
+        <svg class="icon-hamburger" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="3" y1="6" x2="21" y2="6" stroke-width="2" stroke-linecap="round"/>
+          <line x1="3" y1="12" x2="21" y2="12" stroke-width="2" stroke-linecap="round"/>
+          <line x1="3" y1="18" x2="21" y2="18" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <%# Logo %>
+      <div class="header-logo">
+        <%= link_to root_path, class: "logo-link" do %>
+          <span class="logo-text">Fresh Grocer</span>
+        <% end %>
+      </div>
+
+      <%# Desktop: Navigation Links with Active Indicator %>
+      <div class="nav-links-wrapper" data-header-target="navWrapper">
+        <ul class="header-nav-links" data-header-target="navLinks">
+          <li><%= link_to "Home", root_path, class: "nav-link", data: {
+            action: "click->header#handleNavClick",
+            header_target: "navLink",
+            path: root_path
+          } %></li>
+          <li><%= link_to "Shop", products_path, class: "nav-link", data: {
+            action: "click->header#handleNavClick",
+            header_target: "navLink",
+            path: products_path
+          } %></li>
+          <li><%= link_to "Story", "#story", class: "nav-link", data: {
+            action: "click->header#handleNavClick",
+            header_target: "navLink",
+            path: "#story"
+          } %></li>
+          <li><%= link_to "Connect", "#connect", class: "nav-link", data: {
+            action: "click->header#handleNavClick",
+            header_target: "navLink",
+            path: "#connect"
+          } %></li>
+        </ul>
+        <%# Sliding Underline Indicator %>
+        <div class="nav-indicator" data-header-target="indicator"></div>
+      </div>
+
+      <%# Icons: Search, Account, Cart %>
+      <div class="header-actions">
+        <%# Search Icon %>
+        <button type="button"
+                class="header-icon"
+                data-action="click->header#toggleSearch"
+                aria-label="Search">
+          <svg class="icon-search" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="8" stroke-width="2"/>
+            <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <%# Account Icon %>
+        <% if user_signed_in? %>
+          <%= link_to account_profile_path, class: "header-icon", aria: { label: "Account" } do %>
+            <svg class="icon-account" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="8" r="4" stroke-width="2"/>
+              <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          <% end %>
+        <% else %>
+          <%= link_to new_user_session_path, class: "header-icon", aria: { label: "Sign in" } do %>
+            <svg class="icon-account" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="8" r="4" stroke-width="2"/>
+              <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          <% end %>
+        <% end %>
+
+        <%# Cart Icon %>
+        <%= link_to cart_path, class: "header-icon header-cart", aria: { label: "Cart" } do %>
+          <svg class="icon-cart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="9" cy="21" r="1" stroke-width="2"/>
+            <circle cx="20" cy="21" r="1" stroke-width="2"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <% if current_user&.cart&.cart_items&.any? %>
+            <span class="cart-count"><%= current_user.cart.cart_items.sum(:quantity) %></span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<%# Mobile Menu Drawer %>
+<div class="mobile-menu-overlay"
+     data-header-target="mobileMenuOverlay"
+     data-action="click->header#closeMobileMenu">
+</div>
+
+<div class="mobile-menu-drawer" data-header-target="mobileMenu">
+  <div class="mobile-menu-header">
+    <span class="mobile-menu-title">Menu</span>
+    <button type="button"
+            class="mobile-menu-close"
+            data-action="click->header#closeMobileMenu"
+            aria-label="Close menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round"/>
+        <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="mobile-menu-nav" data-header-target="mobileNav">
+    <ul class="mobile-nav-links" data-header-target="mobileNavLinks">
+      <li><%= link_to "Home", root_path, class: "mobile-nav-link", data: {
+        action: "click->header#handleMobileNavClick",
+        header_target: "mobileNavLink"
+      } %></li>
+      <li><%= link_to "Shop", products_path, class: "mobile-nav-link", data: {
+        action: "click->header#handleMobileNavClick",
+        header_target: "mobileNavLink"
+      } %></li>
+      <li><%= link_to "Story", "#story", class: "mobile-nav-link", data: {
+        action: "click->header#handleMobileNavClick",
+        header_target: "mobileNavLink"
+      } %></li>
+      <li><%= link_to "Connect", "#connect", class: "mobile-nav-link", data: {
+        action: "click->header#handleMobileNavClick",
+        header_target: "mobileNavLink"
+      } %></li>
+    </ul>
+
+    <div class="mobile-menu-footer">
+      <% if user_signed_in? %>
+        <%= link_to "My Account", account_profile_path, class: "mobile-menu-button", data: { action: "click->header#closeMobileMenu" } %>
+        <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "mobile-menu-button secondary", data: { action: "click->header#closeMobileMenu" } %>
+      <% else %>
+        <%= link_to "Sign In", new_user_session_path, class: "mobile-menu-button", data: { action: "click->header#closeMobileMenu" } %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "mobile-menu-button secondary", data: { action: "click->header#closeMobileMenu" } %>
+      <% end %>
+    </div>
+  </nav>
+</div>
+
+<%# Search Modal %>
+<div class="search-modal-overlay"
+     data-header-target="searchOverlay"
+     data-action="click->header#closeSearch">
+</div>
+
+<div class="search-modal" data-header-target="searchModal">
+  <div class="search-modal-header">
+    <h2 class="search-modal-title">Search Products</h2>
+    <button type="button"
+            class="search-modal-close"
+            data-action="click->header#closeSearch"
+            aria-label="Close search">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round"/>
+        <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="search-modal-content">
+    <%= form_with url: products_path, method: :get, class: "search-form" do |f| %>
+      <div class="search-input-wrapper">
+        <svg class="search-input-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8" stroke-width="2"/>
+          <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <%= f.text_field :search,
+            placeholder: "Search for products...",
+            class: "search-input",
+            autofocus: true,
+            data: { header_target: "searchInput" } %>
+      </div>
+      <%= f.submit "Search", class: "search-submit-button" %>
+    <% end %>
+
+    <div class="search-suggestions">
+      <p class="search-suggestions-title">Popular Searches</p>
+      <div class="search-tags">
+        <%= link_to "Organic Produce", products_path(search: "organic"), class: "search-tag" %>
+        <%= link_to "Fresh Vegetables", products_path(search: "vegetables"), class: "search-tag" %>
+        <%= link_to "Dairy Products", products_path(search: "dairy"), class: "search-tag" %>
+        <%= link_to "Fruits", products_path(search: "fruits"), class: "search-tag" %>
+      </div>
+    </div>
+  </div>
+</div>

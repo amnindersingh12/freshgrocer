@@ -1,0 +1,971 @@
+// ============================================
+// Header Navigation Styles
+// Inspired by Jaggercane.com
+// ============================================
+
+// Variables
+$dark-green: #183a2a;
+$accent-yellow: #fcb614;
+$white: #ffffff;
+$light-gray: #f5f5f5;
+$text-dark: #1a1a1a;
+$text-gray: #666666;
+$border-color: #e0e0e0;
+$overlay-bg: rgba(0, 0, 0, 0.5);
+
+$header-height: 70px;
+$mobile-breakpoint: 990px;
+$transition-speed: 0.3s;
+$drawer-width: 320px;
+
+// ============================================
+// Main Header with Enhanced Scroll Animations
+// ============================================
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: $white;
+  border-bottom: 1px solid $border-color;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+
+  &.header-hidden {
+    transform: translateY(-100%);
+  }
+
+  &.header-visible {
+    transform: translateY(0);
+    animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &.header-scrolled {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-bottom-color: rgba($border-color, 0.5);
+  }
+
+  // Micro-animation during scroll
+  &.is-scrolling {
+    .header-logo {
+      transform: scale(0.98);
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.header-nav {
+  height: $header-height;
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+// ============================================
+// Logo
+// ============================================
+
+.header-logo {
+  flex-shrink: 0;
+
+  @media (min-width: 991px) {
+    margin-right: auto;
+  }
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: $dark-green;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+
+  &:hover {
+    color: $accent-yellow;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.logo-text {
+  display: block;
+}
+
+// ============================================
+// Desktop Navigation Links with Indicator
+// ============================================
+
+.nav-links-wrapper {
+  position: relative;
+  display: none;
+
+  @media (min-width: 991px) {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.header-nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 40px;
+  position: relative;
+}
+
+.nav-link {
+  display: block;
+  padding: 10px 0;
+  color: $text-dark;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+
+  // Remove the old underline animation
+  &::after {
+    display: none;
+  }
+
+  // Hover effects
+  &:hover {
+    color: $dark-green;
+    transform: scale(1.05);
+  }
+
+  // Focus effects for accessibility
+  &:focus {
+    outline: 2px solid $accent-yellow;
+    outline-offset: 4px;
+    border-radius: 4px;
+    color: $dark-green;
+  }
+
+  // Active state
+  &.active {
+    color: $dark-green;
+    font-weight: 600;
+  }
+
+  // Subtle pulse animation on active
+  &.active {
+    animation: subtlePulse 2s ease-in-out infinite;
+  }
+}
+
+// Animated sliding underline indicator
+.nav-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, $dark-green, $accent-yellow);
+  border-radius: 2px 2px 0 0;
+  opacity: 0;
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease;
+  box-shadow: 0 -2px 8px rgba($accent-yellow, 0.4);
+}
+
+// Subtle pulse animation
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+// ============================================
+// Header Actions (Icons) with Enhanced Animations
+// ============================================
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  color: $text-dark;
+  cursor: pointer;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  text-decoration: none;
+  position: relative;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // Hover effects with scale
+  &:hover {
+    color: $dark-green;
+    background-color: $light-gray;
+    transform: scale(1.1);
+
+    svg {
+      transform: scale(1.05);
+    }
+  }
+
+  // Active/click effect
+  &:active {
+    transform: scale(0.95);
+  }
+
+  // Focus effects
+  &:focus {
+    outline: 2px solid $accent-yellow;
+    outline-offset: 2px;
+  }
+
+  // Ripple effect on click
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: $dark-green;
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  &:active::before {
+    transform: scale(1.5);
+    opacity: 0.1;
+    transition: transform 0s, opacity 0s;
+  }
+}
+
+.header-menu-toggle {
+  display: flex;
+
+  @media (min-width: 991px) {
+    display: none;
+  }
+}
+
+.header-cart {
+  .cart-count {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background-color: $dark-green;
+    color: $white;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0 4px;
+  }
+}
+
+// ============================================
+// Mobile Menu Drawer
+// ============================================
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $overlay-bg;
+  z-index: 1100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $transition-speed ease, visibility $transition-speed ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: $drawer-width;
+  max-width: 85vw;
+  background-color: $white;
+  z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform $transition-speed ease;
+  overflow-y: auto;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+
+  &.active {
+    transform: translateX(0);
+  }
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid $border-color;
+}
+
+.mobile-menu-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: $dark-green;
+  letter-spacing: -0.3px;
+}
+
+.mobile-menu-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  color: $text-dark;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color $transition-speed ease;
+
+  &:hover {
+    background-color: $light-gray;
+  }
+}
+
+.mobile-menu-nav {
+  padding: 20px 0;
+  overflow-x: hidden;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  // Hide scrollbar but keep functionality
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE and Edge
+
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
+
+  // Enable smooth scrolling
+  scroll-behavior: smooth;
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 16px 24px;
+  color: $text-dark;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 3px solid transparent;
+  position: relative;
+  overflow: hidden;
+
+  // Shimmer effect on load
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($accent-yellow, 0.1),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    background-color: $light-gray;
+    color: $dark-green;
+    padding-left: 30px;
+    border-left-color: $accent-yellow;
+    transform: translateX(5px);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.active {
+    background-color: rgba($dark-green, 0.05);
+    color: $dark-green;
+    border-left-color: $accent-yellow;
+    font-weight: 600;
+
+    // Glowing effect for active item
+    box-shadow: inset 3px 0 0 $accent-yellow,
+                inset 0 0 20px rgba($accent-yellow, 0.1);
+  }
+}
+
+.mobile-menu-footer {
+  padding: 20px 24px;
+  border-top: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-menu-button {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  background-color: $dark-green;
+  color: $white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  // Shine effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left 0.6s ease;
+  }
+
+  &:hover {
+    background-color: darken($dark-green, 8%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($dark-green, 0.3);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.secondary {
+    background-color: transparent;
+    color: $dark-green;
+    border: 2px solid $dark-green;
+
+    &:hover {
+      background-color: $dark-green;
+      color: $white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($dark-green, 0.2);
+    }
+  }
+}
+
+// ============================================
+// Search Modal
+// ============================================
+
+.search-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $overlay-bg;
+  z-index: 1300;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $transition-speed ease, visibility $transition-speed ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.search-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $white;
+  z-index: 1400;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $transition-speed ease, visibility $transition-speed ease;
+  overflow-y: auto;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 20px;
+  border-bottom: 1px solid $border-color;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: $dark-green;
+  margin: 0;
+}
+
+.search-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  color: $text-dark;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color $transition-speed ease;
+
+  &:hover {
+    background-color: $light-gray;
+  }
+}
+
+.search-modal-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.search-form {
+  margin-bottom: 40px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.search-input-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $text-gray;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 18px 20px 18px 56px;
+  font-size: 18px;
+  border: 2px solid $border-color;
+  border-radius: 50px;
+  transition: border-color $transition-speed ease, box-shadow $transition-speed ease;
+
+  &:focus {
+    outline: none;
+    border-color: $dark-green;
+    box-shadow: 0 0 0 4px rgba($dark-green, 0.1);
+  }
+
+  &::placeholder {
+    color: $text-gray;
+  }
+}
+
+.search-submit-button {
+  width: 100%;
+  padding: 16px 32px;
+  background-color: $dark-green;
+  color: $white;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color $transition-speed ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: darken($dark-green, 8%);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.search-suggestions {
+  margin-top: 40px;
+}
+
+.search-suggestions-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-gray;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+.search-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.search-tag {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: $light-gray;
+  color: $text-dark;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 25px;
+  transition: background-color $transition-speed ease, color $transition-speed ease;
+
+  &:hover {
+    background-color: $dark-green;
+    color: $white;
+  }
+}
+
+// ============================================
+// Body Scroll Lock and Smooth Scrolling
+// ============================================
+
+// Enable smooth scrolling globally
+html {
+  scroll-behavior: smooth;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+// Custom scrollbar styling (optional)
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $light-gray;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $text-gray;
+  border-radius: 5px;
+
+  &:hover {
+    background: $dark-green;
+  }
+}
+
+// ============================================
+// Responsive Adjustments
+// ============================================
+
+@media (max-width: $mobile-breakpoint) {
+  .header-container {
+    padding: 0 16px;
+  }
+
+  .header-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .logo-text {
+    font-size: 20px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .header-icon {
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .search-modal-title {
+    font-size: 20px;
+  }
+
+  .search-input {
+    font-size: 16px;
+    padding: 16px 20px 16px 52px;
+  }
+
+  .search-submit-button {
+    font-size: 16px;
+    padding: 14px 28px;
+  }
+}
+
+// ============================================
+// Advanced Keyframe Animations
+// ============================================
+
+// Fade in animation for modals
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Slide in from left for drawer
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Bounce animation for cart count
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Apply bounce to cart count
+.cart-count {
+  animation: bounceIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Shimmer loading effect
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+// Glow pulse for active items
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba($accent-yellow, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba($accent-yellow, 0.4);
+  }
+}
+
+// Floating animation for icons on hover
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+// Apply floating to header icons on hover
+.header-icon:hover svg {
+  animation: float 0.6s ease-in-out;
+}
+
+// Slide and fade for search modal
+.search-modal {
+  &.active {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  &.closing {
+    animation: fadeOut 0.3s ease-out;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+// Enhanced mobile drawer animation
+.mobile-menu-drawer {
+  &.active {
+    animation: slideInLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &.closing {
+    animation: slideOutLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+// Stagger animation for mobile nav items
+.mobile-nav-link {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease-out forwards;
+
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Smooth indicator movement
+.nav-indicator {
+  animation: fadeIn 0.5s ease-out;
+}
+
+// Logo pulse on page load
+.logo-link {
+  animation: logoPulse 1s ease-out;
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
