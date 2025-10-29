@@ -8,15 +8,19 @@ development:
   <<: *default
   database: freshg
   # Use the default superuser that already exists
-  username: vscode
+  username: <%= ENV['DATABASE_USERNAME'] || 'vscode' %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
   # No password is needed for local connections in this setup
 
 test:
   <<: *default
   database: your_app_test
-  username: vscode
+  username: <%= ENV['DATABASE_USERNAME'] || 'vscode' %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+
 
 production:
   <<: *default
   database: freshgT
-  username: vscode
+  username: <%= ENV['DATABASE_USERNAME'] || 'vscode' %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
