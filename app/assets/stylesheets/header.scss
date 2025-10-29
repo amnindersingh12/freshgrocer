@@ -31,42 +31,27 @@ $drawer-width: 320px;
   z-index: 1000;
   background-color: $surface;
   border-bottom: 1px solid $border;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+  // Calm transition - no bounce, just smooth opacity and shadow
+  transition: opacity 0.3s ease,
+              box-shadow 0.3s ease;
 
   &.header-hidden {
-    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
   }
 
   &.header-visible {
-    transform: translateY(0);
-    animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   &.header-scrolled {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     border-bottom-color: rgba($border, 0.8);
   }
-
-  // Micro-animation during scroll
-  &.is-scrolling {
-    .header-logo {
-      transform: scale(0.98);
-    }
-  }
 }
 
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0.8;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+// Removed bouncy slideDown animation - now using calm opacity transitions
 
 .header-nav {
   height: $header-height;
@@ -104,16 +89,16 @@ $drawer-width: 320px;
   font-size: 24px;
   letter-spacing: -0.5px;
   transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center;
 
   &:hover {
     color: $accent;
-    transform: scale(1.05);
+    opacity: 0.9;
   }
 
   &:active {
-    transform: scale(0.98);
+    opacity: 0.95;
   }
 }
 
@@ -164,10 +149,9 @@ $drawer-width: 320px;
     display: none;
   }
 
-  // Hover effects
+  // Hover effects - calm, no bouncing
   &:hover {
     color: $primary;
-    transform: scale(1.05);
   }
 
   // Focus effects for accessibility
@@ -178,15 +162,10 @@ $drawer-width: 320px;
     color: $primary;
   }
 
-  // Active state
+  // Active state - calm, no animation
   &.active {
     color: $primary;
     font-weight: 600;
-  }
-
-  // Subtle pulse animation on active
-  &.active {
-    animation: subtlePulse 2s ease-in-out infinite;
   }
 }
 
@@ -203,16 +182,6 @@ $drawer-width: 320px;
               width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.3s ease;
   box-shadow: 0 -2px 8px rgba($accent, 0.4);
-}
-
-// Subtle pulse animation
-@keyframes subtlePulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.9;
-  }
 }
 
 // ============================================
@@ -246,47 +215,28 @@ $drawer-width: 320px;
   svg {
     width: 24px;
     height: 24px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  // Hover effects with scale
+  // Hover effects - calm, no scale
   &:hover {
     color: $primary;
     background-color: $background;
-    transform: scale(1.1);
 
     svg {
-      transform: scale(1.05);
+      opacity: 0.9;
     }
   }
 
-  // Active/click effect
+  // Active/click effect - calm
   &:active {
-    transform: scale(0.95);
+    opacity: 0.8;
   }
 
   // Focus effects
   &:focus {
     outline: 2px solid $accent;
     outline-offset: 2px;
-  }
-
-  // Ripple effect on click
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: $primary;
-    opacity: 0;
-    transform: scale(0);
-    transition: transform 0.5s ease, opacity 0.5s ease;
-  }
-
-  &:active::before {
-    transform: scale(1.5);
-    opacity: 0.1;
-    transition: transform 0s, opacity 0s;
   }
 }
 
@@ -460,7 +410,7 @@ $drawer-width: 320px;
   }
 
   &:active {
-    transform: scale(0.98);
+    opacity: 0.8;
   }
 
   &.active {
@@ -469,9 +419,8 @@ $drawer-width: 320px;
     border-left-color: $accent;
     font-weight: 600;
 
-    // Glowing effect for active item
-    box-shadow: inset 3px 0 0 $accent,
-                inset 0 0 20px rgba($accent, 0.1);
+    // Subtle highlight for active item
+    box-shadow: inset 3px 0 0 $accent;
   }
 }
 
@@ -832,24 +781,19 @@ body.modal-open {
   }
 }
 
-// Bounce animation for cart count
-@keyframes bounceIn {
-  0% {
-    transform: scale(0);
+// Remove bounce animation - keep it calm
+@keyframes fadeIn {
+  from {
     opacity: 0;
   }
-  50% {
-    transform: scale(1.2);
+  to {
     opacity: 1;
-  }
-  100% {
-    transform: scale(1);
   }
 }
 
-// Apply bounce to cart count
+// Apply calm fade to cart count instead of bounce
 .cart-count {
-  animation: bounceIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.3s ease-out;
 }
 
 // Shimmer loading effect

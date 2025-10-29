@@ -54,16 +54,16 @@ export default class extends Controller {
     }
 
     // ============================================
-    // Initial Load Animation
+    // Initial Load Animation - Calm fade-in
     // ============================================
     animateHeaderOnLoad() {
-        // Add a slight delay for dramatic effect
-        this.headerTarget.style.transform = 'translateY(-100%)'
+        // Simple calm fade-in, no bouncing
+        this.headerTarget.style.opacity = '0'
 
         requestAnimationFrame(() => {
             setTimeout(() => {
-                this.headerTarget.style.transform = 'translateY(0)'
-                this.headerTarget.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                this.headerTarget.style.opacity = '1'
+                this.headerTarget.style.transition = 'opacity 0.3s ease'
             }, 100)
         })
     }
@@ -117,7 +117,8 @@ export default class extends Controller {
         if (!animated) {
             this.indicatorTarget.style.transition = 'none'
         } else {
-            this.indicatorTarget.style.transition = 'left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+            // Calm transition, no bounce
+            this.indicatorTarget.style.transition = 'left 0.3s ease, width 0.3s ease'
         }
 
         this.indicatorTarget.style.left = `${left}px`
@@ -127,7 +128,7 @@ export default class extends Controller {
         // Force reflow to enable transition on next change
         if (!animated) {
             void this.indicatorTarget.offsetWidth
-            this.indicatorTarget.style.transition = 'left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+            this.indicatorTarget.style.transition = 'left 0.3s ease, width 0.3s ease'
         }
     }
 
