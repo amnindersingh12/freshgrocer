@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_29_094604) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_29_101222) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -119,7 +119,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_29_094604) do
     t.datetime "discarded_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "compare_at_price", precision: 10, scale: 2
+    t.boolean "is_combo_deal", default: false, null: false
     t.index ["discarded_at"], name: "index_product_variants_on_discarded_at"
+    t.index ["is_combo_deal"], name: "index_product_variants_on_is_combo_deal"
     t.index ["product_id"], name: "index_product_variants_on_product_id"
     t.index ["sku"], name: "index_product_variants_on_sku", unique: true
   end

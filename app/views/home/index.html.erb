@@ -103,6 +103,92 @@
     </div>
   </section>
 
+  <%# Best Combo Deals Section %>
+  <% if @combo_deals.any? %>
+    <section class="combo-deals-section" data-controller="combo-slider" data-combo-slider-autoplay-value="true" data-combo-slider-interval-value="4000">
+      <div class="combo-deals-header">
+        <span class="combo-deals-badge">🔥 Limited Time Offer</span>
+        <h2 class="combo-deals-title">Best Combo Deals</h2>
+        <p class="combo-deals-subtitle">Save big on our handpicked combo deals - Fresh products at unbeatable prices!</p>
+      </div>
+
+      <div class="combo-deals-slider">
+        <div class="combo-deals-wrapper">
+          <%# Previous Arrow %>
+          <button type="button"
+                  class="combo-slider-arrow prev"
+                  data-combo-slider-target="prevBtn"
+                  data-action="click->combo-slider#previous"
+                  aria-label="Previous deals">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </button>
+
+          <%# Slider Container %>
+          <div class="combo-deals-container" data-combo-slider-target="container">
+            <% @combo_deals.each do |variant| %>
+              <div class="combo-deal-card" data-combo-slider-target="slide">
+                <%# Product Image %>
+                <div class="combo-deal-image">
+                  <%= image_tag "https://via.placeholder.com/300x200/16a34a/ffffff?text=#{CGI.escape(variant.product.name)}",
+                                alt: variant.product.name,
+                                loading: "lazy" %>
+
+                  <%# Discount Badge %>
+                  <% if variant.compare_at_price && variant.compare_at_price > variant.price %>
+                    <% discount_percent = (((variant.compare_at_price - variant.price) / variant.compare_at_price) * 100).round %>
+                    <span class="combo-deal-badge">-<%= discount_percent %>%</span>
+                  <% end %>
+                </div>
+
+                <%# Product Info %>
+                <div class="combo-deal-content">
+                  <h3 class="combo-deal-name"><%= variant.product.name %></h3>
+                  <p class="combo-deal-variant"><%= variant.variant_name %></p>
+
+                  <%# Pricing %>
+                  <div class="combo-deal-pricing">
+                    <span class="combo-deal-price">$<%= number_with_precision(variant.price, precision: 2) %></span>
+
+                    <% if variant.compare_at_price && variant.compare_at_price > variant.price %>
+                      <span class="combo-deal-compare-price">$<%= number_with_precision(variant.compare_at_price, precision: 2) %></span>
+                      <% savings = variant.compare_at_price - variant.price %>
+                      <span class="combo-deal-savings">Save $<%= number_with_precision(savings, precision: 2) %></span>
+                    <% end %>
+                  </div>
+
+                  <%# Add to Cart Button %>
+                  <%= form_with url: add_item_cart_path, method: :post, local: false, data: { turbo: false } do |f| %>
+                    <%= f.hidden_field :product_variant_id, value: variant.id %>
+                    <%= f.hidden_field :quantity, value: 1 %>
+                    <%= f.button type: "submit", class: "add-to-cart-btn", data: { variant_id: variant.id } do %>
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                      </svg>
+                      Add to Cart
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <%# Next Arrow %>
+          <button type="button"
+                  class="combo-slider-arrow next"
+                  data-combo-slider-target="nextBtn"
+                  data-action="click->combo-slider#next"
+                  aria-label="Next deals">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  <% end %>
+
   <%# Featured Products Section %>
   <section class="py-12 sm:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

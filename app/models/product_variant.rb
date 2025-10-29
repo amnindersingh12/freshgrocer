@@ -18,6 +18,7 @@ class ProductVariant < ApplicationRecord
   default_scope -> { kept }
   scope :in_stock, -> { where('stock_quantity > 0') }
   scope :out_of_stock, -> { where(stock_quantity: 0) }
+  scope :combo_deals, -> { where(is_combo_deal: true) }
 
   # Check if variant has sufficient stock
   def has_stock?(quantity = 1)
@@ -32,5 +33,22 @@ class ProductVariant < ApplicationRecord
   # Display name with variant
   def display_name
     "#{product.name} - #{variant_name}"
+  end
+
+  # Calculate discount percentage
+  def discount_percentage
+    return 0 unless compare_at_price && compare_at_price > price
+    (((compare_at_price - price) / compare_at_price) * 100).round
+  end
+
+  # Calculate savings amount
+  def savings_amount
+    return 0 unless compare_at_price && compare_at_price > price
+    compare_at_price - price
+  end
+
+  # Check if this is a combo deal
+  def combo_deal?
+    is_combo_deal
   end
 end
