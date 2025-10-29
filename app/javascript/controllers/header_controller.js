@@ -36,6 +36,21 @@ export default class extends Controller {
 
         // Set up resize observer for responsive indicator
         this.setupResizeObserver()
+
+        // Handle hash on page load (after Turbo navigation)
+        this.handleHashOnLoad()
+    }
+
+    // ============================================
+    // Handle Hash on Page Load
+    // ============================================
+    handleHashOnLoad() {
+        // Wait for page to fully load and Turbo to settle
+        setTimeout(() => {
+            if (window.location.hash) {
+                this.smoothScrollToSection(window.location.hash)
+            }
+        }, 300)
     }
 
     // ============================================
@@ -154,9 +169,17 @@ export default class extends Controller {
         this.setActiveLink(link, true)
 
         // Handle hash links with smooth scroll
-        if (href.startsWith('#')) {
-            event.preventDefault()
-            this.smoothScrollToSection(href)
+        if (href.includes('#')) {
+            // Check if we're navigating to a different page with an anchor
+            const [path, hash] = href.split('#')
+            const currentPath = window.location.pathname
+
+            // If we're on the same page or going to root with hash
+            if (!path || path === currentPath || (path === '/' && currentPath === '/')) {
+                event.preventDefault()
+                this.smoothScrollToSection('#' + hash)
+            }
+            // Otherwise, let the browser navigate normally (Turbo will handle it)
         }
     }
 
@@ -172,14 +195,25 @@ export default class extends Controller {
         this.centerMobileNavItem(link)
 
         // Handle hash links with smooth scroll
-        if (href.startsWith('#')) {
-            event.preventDefault()
-            this.smoothScrollToSection(href)
+        if (href.includes('#')) {
+            const [path, hash] = href.split('#')
+            const currentPath = window.location.pathname
 
-            // Close menu after short delay
-            setTimeout(() => {
-                this.closeMobileMenu()
-            }, 300)
+            // If we're on the same page or going to root with hash
+            if (!path || path === currentPath || (path === '/' && currentPath === '/')) {
+                event.preventDefault()
+                this.smoothScrollToSection('#' + hash)
+
+                // Close menu after short delay
+                setTimeout(() => {
+                    this.closeMobileMenu()
+                }, 300)
+            } else {
+                // Close menu for navigation to different pages
+                setTimeout(() => {
+                    this.closeMobileMenu()
+                }, 150)
+            }
         } else {
             // Close menu for regular links
             setTimeout(() => {

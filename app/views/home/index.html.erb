@@ -224,6 +224,103 @@
     </div>
   </section>
 
+  <%# Brand Story Section %>
+  <section id="story" class="brand-story-section">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="brand-story-header">
+        <span class="brand-story-badge">🌾 Our Story</span>
+        <h2 class="brand-story-title">From Farm to Your Table</h2>
+        <p class="brand-story-subtitle">Bringing you the freshest produce with love and tradition</p>
+      </div>
+
+      <div class="brand-story-grid">
+        <%# Farmer Story with GIF %>
+        <div class="brand-story-card farmer-card">
+          <div class="farmer-image-wrapper">
+            <%= image_tag "https://media.giphy.com/media/l0HlRnAWXxn0MhKLK/giphy.gif",
+                          alt: "Farmer working in field",
+                          class: "farmer-gif",
+                          loading: "lazy" %>
+            <div class="farmer-overlay"></div>
+          </div>
+          <div class="farmer-content">
+            <div class="farmer-quote-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+              </svg>
+            </div>
+            <h3 class="farmer-title">Singhde khet da swad</h3>
+            <p class="farmer-description">
+              Every product tells a story of dedication, hard work, and passion.
+              From Singh fields to your kitchen, we bring you the authentic taste
+              of farm-fresh goodness. Our farmers wake up before dawn to harvest
+              the finest produce, ensuring quality in every bite.
+            </p>
+            <div class="farmer-signature">
+              <span class="signature-line"></span>
+              <span class="signature-text">— Singh, Farmer Partner</span>
+            </div>
+          </div>
+        </div>
+
+        <%# Video Section %>
+        <div class="brand-story-card video-card">
+          <div class="video-wrapper">
+            <div class="video-thumbnail">
+              <%= image_tag "https://via.placeholder.com/600x400/fcb614/ffffff?text=Jaggery+Mythbusters",
+                            alt: "FreshGrocer Mythbusters Video",
+                            class: "video-poster",
+                            loading: "lazy" %>
+              <div class="video-play-button">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+              <div class="video-duration">5:23</div>
+            </div>
+          </div>
+          <div class="video-content">
+            <div class="video-badge">
+              <svg class="video-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="2" y="7" width="20" height="15" rx="2" ry="2" stroke-width="2"/>
+                <polyline points="23 7 12 13 1 7" stroke-width="2"/>
+              </svg>
+              <span>Featured Video</span>
+            </div>
+            <h3 class="video-title">FreshGrocer Mythbusters</h3>
+            <p class="video-description">
+              Discover the truth about traditional jaggery! Join us as we debunk
+              common myths and reveal the incredible health benefits of this
+              natural sweetener. Learn why our organic jaggery is different
+              and how it's made using age-old techniques.
+            </p>
+            <div class="video-stats">
+              <div class="stat-item">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                <span>12.5K views</span>
+              </div>
+              <div class="stat-item">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>5:23 min</span>
+              </div>
+            </div>
+            <button class="watch-video-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span>Watch Now</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <%# Main Categories Section %>
   <section class="py-12 sm:py-16 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

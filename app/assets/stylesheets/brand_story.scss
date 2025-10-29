@@ -1,0 +1,533 @@
+// ============================================
+// Brand Story & Videos Section
+// ============================================
+
+// Variables
+$primary-green: #16a34a;
+$dark-green: #183a2a;
+$accent-yellow: #fcb614;
+$white: #ffffff;
+$light-gray: #f9fafb;
+$border-color: #e5e7eb;
+$text-dark: #1f2937;
+$text-gray: #6b7280;
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+// ============================================
+// Main Section
+// ============================================
+
+.brand-story-section {
+  position: relative;
+  padding: 5rem 0;
+  background: linear-gradient(180deg, $white 0%, $light-gray 100%);
+  overflow: hidden;
+
+  // Decorative elements
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba($accent-yellow, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba($primary-green, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 15s ease-in-out infinite reverse;
+  }
+}
+
+// ============================================
+// Header
+// ============================================
+
+.brand-story-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.brand-story-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, $accent-yellow, darken($accent-yellow, 10%));
+  color: $white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.625rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 1.5rem;
+  box-shadow: $shadow-md;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.brand-story-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: $dark-green;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  background: linear-gradient(135deg, $dark-green 0%, $primary-green 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  @media (max-width: 768px) {
+    font-size: 2.25rem;
+  }
+}
+
+.brand-story-subtitle {
+  font-size: 1.25rem;
+  color: $text-gray;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+// ============================================
+// Grid Layout
+// ============================================
+
+.brand-story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+// ============================================
+// Brand Story Cards
+// ============================================
+
+.brand-story-card {
+  background: $white;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: $shadow-lg;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.8s ease-out backwards;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-2xl;
+  }
+}
+
+// ============================================
+// Farmer Card
+// ============================================
+
+.farmer-card {
+  animation-delay: 0.2s;
+}
+
+.farmer-image-wrapper {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  background: linear-gradient(135deg, $dark-green 0%, $primary-green 100%);
+
+  @media (max-width: 768px) {
+    height: 300px;
+  }
+}
+
+.farmer-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+
+  .farmer-card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.farmer-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba($dark-green, 0.3) 50%,
+    rgba($dark-green, 0.7) 100%
+  );
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
+
+  .farmer-card:hover & {
+    opacity: 0.4;
+  }
+}
+
+.farmer-content {
+  padding: 2.5rem;
+  position: relative;
+}
+
+.farmer-quote-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  color: $accent-yellow;
+  margin-bottom: 1.5rem;
+  opacity: 0.3;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.farmer-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: $dark-green;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  font-family: Georgia, serif;
+  font-style: italic;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
+
+.farmer-description {
+  font-size: 1.0625rem;
+  color: $text-gray;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.farmer-signature {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.signature-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, $accent-yellow, transparent);
+}
+
+.signature-text {
+  font-size: 0.9375rem;
+  color: $dark-green;
+  font-weight: 600;
+  font-style: italic;
+}
+
+// ============================================
+// Video Card
+// ============================================
+
+.video-card {
+  animation-delay: 0.4s;
+  display: flex;
+  flex-direction: column;
+}
+
+.video-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 300px;
+  background: linear-gradient(135deg, $primary-green 0%, $dark-green 100%);
+}
+
+.video-thumbnail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.video-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.5s ease;
+  filter: brightness(0.9);
+
+  .video-card:hover & {
+    transform: scale(1.05);
+    filter: brightness(0.7);
+  }
+}
+
+.video-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5rem;
+  height: 5rem;
+  background: rgba($white, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $primary-green;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: playPulse 2s ease-in-out infinite;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.25rem;
+  }
+
+  .video-card:hover & {
+    transform: translate(-50%, -50%) scale(1.15);
+    background: $accent-yellow;
+    color: $white;
+    animation: none;
+  }
+}
+
+.video-duration {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba($dark-green, 0.9);
+  color: $white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.video-content {
+  padding: 2.5rem;
+}
+
+.video-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba($primary-green, 0.1);
+  color: $primary-green;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.video-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.video-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: $dark-green;
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
+
+.video-description {
+  font-size: 1.0625rem;
+  color: $text-gray;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.video-stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border-color;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $text-gray;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.stat-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: $primary-green;
+  stroke-width: 2;
+}
+
+.watch-video-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, $primary-green, darken($primary-green, 8%));
+  color: $white;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  box-shadow: $shadow-md;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.3s ease;
+  }
+
+  // Shine effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($white, 0.3),
+      transparent
+    );
+    transition: left 0.6s ease;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, darken($primary-green, 8%), darken($primary-green, 15%));
+    transform: translateY(-2px);
+    box-shadow: $shadow-xl;
+
+    svg {
+      transform: scale(1.1);
+    }
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ============================================
+// Animations
+// ============================================
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: $shadow-md;
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: $shadow-lg;
+  }
+}
+
+@keyframes playPulse {
+  0%, 100% {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 8px 40px rgba($primary-green, 0.5);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+// ============================================
+// Reduced Motion Support
+// ============================================
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-story-card,
+  .brand-story-header,
+  .farmer-gif,
+  .video-poster,
+  .video-play-button {
+    animation: none;
+    transition: none;
+  }
+
+  .brand-story-card:hover {
+    transform: none;
+  }
+}

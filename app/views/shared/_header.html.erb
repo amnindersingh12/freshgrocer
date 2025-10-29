@@ -40,10 +40,10 @@
             header_target: "navLink",
             path: products_path
           } %></li>
-          <li><%= link_to "Story", "#story", class: "nav-link", data: {
+          <li><%= link_to "Story", root_path(anchor: "story"), class: "nav-link", data: {
             action: "click->header#handleNavClick",
             header_target: "navLink",
-            path: "#story"
+            path: "#{root_path}#story"
           } %></li>
           <li><%= link_to "Connect", "#connect", class: "nav-link", data: {
             action: "click->header#handleNavClick",
@@ -131,7 +131,7 @@
         action: "click->header#handleMobileNavClick",
         header_target: "mobileNavLink"
       } %></li>
-      <li><%= link_to "Story", "#story", class: "mobile-nav-link", data: {
+      <li><%= link_to "Story", root_path(anchor: "story"), class: "mobile-nav-link", data: {
         action: "click->header#handleMobileNavClick",
         header_target: "mobileNavLink"
       } %></li>
