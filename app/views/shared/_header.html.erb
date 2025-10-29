@@ -92,8 +92,8 @@
             <circle cx="20" cy="21" r="1" stroke-width="2"/>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <% if current_user&.cart&.cart_items&.any? %>
-            <span class="cart-count"><%= current_user.cart.cart_items.sum(:quantity) %></span>
+          <% if current_cart&.cart_items&.any? %>
+            <span class="cart-count"><%= current_cart.cart_items.sum(:quantity) %></span>
           <% end %>
         <% end %>
       </div>
