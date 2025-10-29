@@ -40,6 +40,13 @@
             header_target: "navLink",
             path: products_path
           } %></li>
+          <% if user_signed_in? && current_user.admin? %>
+            <li><%= link_to "Admin Dashboard", admin_root_path, class: "nav-link admin-link", data: {
+              action: "click->header#handleNavClick",
+              header_target: "navLink",
+              path: admin_root_path
+            } %></li>
+          <% end %>
           <li><%= link_to "Story", root_path(anchor: "story"), class: "nav-link", data: {
             action: "click->header#handleNavClick",
             header_target: "navLink",
@@ -131,6 +138,12 @@
         action: "click->header#handleMobileNavClick",
         header_target: "mobileNavLink"
       } %></li>
+      <% if user_signed_in? && current_user.admin? %>
+        <li><%= link_to "Admin Dashboard", admin_root_path, class: "mobile-nav-link admin-link", data: {
+          action: "click->header#handleMobileNavClick",
+          header_target: "mobileNavLink"
+        } %></li>
+      <% end %>
       <li><%= link_to "Story", root_path(anchor: "story"), class: "mobile-nav-link", data: {
         action: "click->header#handleMobileNavClick",
         header_target: "mobileNavLink"
