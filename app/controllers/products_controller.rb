@@ -4,6 +4,21 @@ class ProductsController < ApplicationController
   def index
     @products = Product.kept.includes(:category, :product_variants)
 
+    # Featured products for hero slider
+    @featured_products = Product.kept
+                                .includes(:category, :product_variants)
+                                .where(featured: true)
+                                .order(created_at: :desc)
+                                .limit(5)
+
+    # If no featured products, use top products
+    if @featured_products.empty?
+      @featured_products = Product.kept
+                                  .includes(:category, :product_variants)
+                                  .order(created_at: :desc)
+                                  .limit(5)
+    end
+
     # Search functionality
     @products = @products.search(params[:search]) if params[:search].present?
 

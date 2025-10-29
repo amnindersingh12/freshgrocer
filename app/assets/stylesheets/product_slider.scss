@@ -1,0 +1,219 @@
+// ============================================
+// Product Hero Slider Styles
+// ============================================
+
+.product-hero-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f5f5f5;
+
+  // Slide container
+  [data-product-slider-target="slide"] {
+    transition: opacity 0.6s ease-in-out, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+  }
+
+  // Text animation classes
+  .slide-text-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    will-change: opacity, transform;
+  }
+
+  // Navigation arrows hover effects
+  button[data-action*="previous"],
+  button[data-action*="next"] {
+    backdrop-filter: blur(8px);
+
+    &:hover {
+      transform: translateY(-50%) scale(1.1);
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  // Dot navigation enhancements
+  [data-product-slider-target="dot"] {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: scale(1.2);
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    }
+
+    &[aria-selected="true"] {
+      background-color: white;
+      transform: scale(1.25);
+    }
+  }
+
+  // CTA Button animations
+  a[href*="product"] {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
+
+    &:hover::before {
+      left: 100%;
+    }
+  }
+
+  // Badge animation
+  span[class*="badge"],
+  span[class*="rounded-full"] {
+    animation: fadeInDown 0.6s ease-out 0.2s backwards;
+  }
+
+  // Price display animation
+  p:has(span.text-yellow-300) {
+    animation: fadeInUp 0.6s ease-out 0.4s backwards;
+  }
+
+  // Stock status animation
+  p:has(svg) {
+    animation: fadeInUp 0.6s ease-out 0.5s backwards;
+  }
+}
+
+// Keyframe animations
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  .product-hero-slider {
+    button[data-action*="previous"],
+    button[data-action*="next"] {
+      padding: 0.75rem;
+
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+
+    [data-product-slider-target="dot"] {
+      width: 0.625rem;
+      height: 0.625rem;
+    }
+  }
+}
+
+// Accessibility - Reduced motion preference
+@media (prefers-reduced-motion: reduce) {
+  .product-hero-slider {
+    [data-product-slider-target="slide"],
+    .slide-text-animate,
+    button,
+    [data-product-slider-target="dot"] {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+}
+
+// Loading state
+.product-hero-slider[data-loading="true"] {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// Focus visible for better keyboard navigation
+.product-hero-slider {
+  &:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, 0.5);
+    outline-offset: 4px;
+  }
+}
+
+// Image lazy loading transition
+.product-hero-slider img {
+  transition: opacity 0.4s ease-in-out;
+
+  &[data-src] {
+    opacity: 0.7;
+    filter: blur(5px);
+  }
+
+  &:not([data-src]) {
+    opacity: 1;
+    filter: none;
+  }
+}
