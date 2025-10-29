@@ -36,6 +36,14 @@ module Admin
 
     def update
       if @product.update(product_params)
+        # Handle image deletions
+        if params[:product][:remove_image_ids].present?
+          params[:product][:remove_image_ids].each do |image_id|
+            image = @product.images.find_by(id: image_id)
+            image.purge if image
+          end
+        end
+
         flash[:success] = 'Product updated successfully!'
         redirect_to admin_product_path(@product)
       else
@@ -65,7 +73,14 @@ module Admin
     end
 
     def product_params
-      params.require(:product).permit(:name, :description, :brand, :category_id)
+      params.require(:product).permit(
+        :name,
+        :description,
+        :brand,
+        :category_id,
+        :featured,
+        images: []
+      )
     end
   end
 end

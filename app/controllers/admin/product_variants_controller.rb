@@ -104,7 +104,14 @@ module Admin
     end
 
     def variant_params
-      params.require(:product_variant).permit(:sku, :price, :stock_quantity, :variant_name)
+      params.require(:product_variant).permit(
+        :sku,
+        :price,
+        :compare_at_price,
+        :stock_quantity,
+        :variant_name,
+        :is_combo_deal
+      )
     end
   end
 end

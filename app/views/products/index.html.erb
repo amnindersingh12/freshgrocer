@@ -46,10 +46,17 @@
             <div class="product-card">
               <%# Product Image %>
               <div class="product-image-wrapper">
-                <%= image_tag "https://via.placeholder.com/300x250/16a34a/ffffff?text=#{CGI.escape(product.name)}",
-                              alt: product.name,
-                              class: "product-image",
-                              loading: "lazy" %>
+                <% if product.images.attached? && product.primary_image %>
+                  <%= image_tag product.primary_image.variant(resize_to_limit: [300, 300]),
+                                alt: product.name,
+                                class: "product-image",
+                                loading: "lazy" %>
+                <% else %>
+                  <%= image_tag "https://via.placeholder.com/300x250/16a34a/ffffff?text=#{CGI.escape(product.name)}",
+                                alt: product.name,
+                                class: "product-image",
+                                loading: "lazy" %>
+                <% end %>
 
                 <%# Quick Actions (Hidden, shown on hover) %>
                 <div class="product-actions">

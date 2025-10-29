@@ -131,9 +131,15 @@
               <div class="combo-deal-card" data-combo-slider-target="slide">
                 <%# Product Image %>
                 <div class="combo-deal-image">
-                  <%= image_tag "https://via.placeholder.com/300x200/16a34a/ffffff?text=#{CGI.escape(variant.product.name)}",
-                                alt: variant.product.name,
-                                loading: "lazy" %>
+                  <% if variant.product.images.attached? && variant.product.primary_image %>
+                    <%= image_tag variant.product.primary_image.variant(resize_to_limit: [300, 300]),
+                                  alt: variant.product.name,
+                                  loading: "lazy" %>
+                  <% else %>
+                    <%= image_tag "https://via.placeholder.com/300x200/16a34a/ffffff?text=#{CGI.escape(variant.product.name)}",
+                                  alt: variant.product.name,
+                                  loading: "lazy" %>
+                  <% end %>
 
                   <%# Discount Badge %>
                   <% if variant.compare_at_price && variant.compare_at_price > variant.price %>
@@ -198,7 +204,14 @@
         <% @featured_products.each_with_index do |product, index| %>
           <div class="card hover-lift overflow-hidden" data-controller="animate" data-animate-delay-value="<%= index * 100 %>" data-animate-animation-value="fade-up">
             <div class="h-48 bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center overflow-hidden">
-              <span class="text-6xl transition-transform duration-300 hover:scale-110">🛒</span>
+              <% if product.images.attached? && product.primary_image %>
+                <%= image_tag product.primary_image.variant(resize_to_limit: [300, 300]),
+                              alt: product.name,
+                              class: "w-full h-full object-cover transition-transform duration-300 hover:scale-110",
+                              loading: "lazy" %>
+              <% else %>
+                <span class="text-6xl transition-transform duration-300 hover:scale-110">🛒</span>
+              <% end %>
             </div>
 
             <div class="p-4">

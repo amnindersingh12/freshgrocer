@@ -20,7 +20,13 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
       <%# Product Image %>
       <div class="bg-gradient-to-br from-green-100 to-green-200 rounded-lg p-8 flex items-center justify-center" style="min-height: 400px;">
-        <span class="text-9xl">🥬</span>
+        <% if @product.images.attached? && @product.primary_image %>
+          <%= image_tag @product.primary_image.variant(resize_to_limit: [800, 800]),
+                        alt: @product.name,
+                        class: "w-full h-auto rounded-lg shadow-lg" %>
+        <% else %>
+          <span class="text-9xl">🥬</span>
+        <% end %>
       </div>
 
       <%# Product Information %>

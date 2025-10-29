@@ -12,51 +12,182 @@
     </div>
   <% end %>
 
-  <%# Product Name %>
-  <div>
-    <%= f.label :name, "Product Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
-    <%= f.text_field :name,
-        class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent",
-        placeholder: "Organic Bananas" %>
-    <p class="mt-1 text-sm text-gray-500">This will be used to generate the URL slug</p>
-  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <%# Left Column - Basic Info %>
+    <div class="space-y-6">
+      <%# Product Name %>
+      <div>
+        <%= f.label :name, "Product Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.text_field :name,
+            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent",
+            placeholder: "Organic Bananas" %>
+        <p class="mt-1 text-sm text-gray-500">This will be used to generate the URL slug</p>
+      </div>
 
-  <%# Description %>
-  <div>
-    <%= f.label :description, "Description", class: "block text-sm font-medium text-gray-700 mb-2" %>
-    <%= f.text_area :description,
-        rows: 5,
-        class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent",
-        placeholder: "Fresh, organically grown bananas..." %>
-  </div>
+      <%# Brand %>
+      <div>
+        <%= f.label :brand, "Brand", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.text_field :brand,
+            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent",
+            placeholder: "FreshFarms" %>
+      </div>
 
-  <%# Category %>
-  <div>
-    <%= f.label :category_id, "Category", class: "block text-sm font-medium text-gray-700 mb-2" %>
-    <%= f.collection_select :category_id,
-        Category.all,
-        :id,
-        :name,
-        { prompt: "Select a category" },
-        class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" %>
-  </div>
+      <%# Category %>
+      <div>
+        <%= f.label :category_id, "Category", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.collection_select :category_id,
+            Category.all,
+            :id,
+            :name,
+            { prompt: "Select a category" },
+            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" %>
+      </div>
 
-  <%# Base Price %>
-  <div>
-    <%= f.label :base_price, "Base Price ($)", class: "block text-sm font-medium text-gray-700 mb-2" %>
-    <%= f.number_field :base_price,
-        step: 0.01,
-        min: 0,
-        class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent",
-        placeholder: "2.99" %>
-    <p class="mt-1 text-sm text-gray-500">This is the default price. Variants can have their own prices.</p>
+      <%# Featured Product Checkbox %>
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <%= f.check_box :featured,
+              class: "w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2" %>
+        </div>
+        <div class="ml-3">
+          <%= f.label :featured, class: "font-medium text-gray-700" do %>
+            Featured Product
+            <p class="text-sm text-gray-500 font-normal">Show this product in featured sections</p>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Description %>
+      <div>
+        <%= f.label :description, "Description", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.text_area :description,
+            rows: 8,
+            class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent",
+            placeholder: "Fresh, organically grown bananas..." %>
+        <p class="mt-1 text-sm text-gray-500">Provide a detailed description of the product</p>
+      </div>
+    </div>
+
+    <%# Right Column - Images %>
+    <div class="space-y-6">
+      <%# Product Images %>
+      <div>
+        <%= f.label :images, "Product Images", class: "block text-sm font-medium text-gray-700 mb-2" %>
+
+        <%# Existing Images %>
+        <% if product.images.attached? %>
+          <div class="mb-4">
+            <p class="text-sm text-gray-600 mb-3">Current Images (<%= product.images.count %>):</p>
+            <div class="grid grid-cols-2 gap-4">
+              <% product.images.each_with_index do |image, index| %>
+                <div class="relative group border border-gray-200 rounded-lg p-2 hover:border-green-500 transition-colors">
+                  <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "w-full h-40 object-cover rounded" %>
+                  <div class="mt-2 flex items-center justify-between">
+                    <span class="text-xs text-gray-500">
+                      <%= index == 0 ? "Primary" : "Image #{index + 1}" %>
+                    </span>
+                    <button type="button"
+                            onclick="removeImage(this, '<%= image.id %>')"
+                            class="text-red-600 hover:text-red-800 text-sm font-medium">
+                      Remove
+                    </button>
+                  </div>
+                  <input type="hidden" name="product[remove_image_ids][]" value="" class="remove-image-input" data-image-id="<%= image.id %>">
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Upload New Images %>
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-green-500 transition-colors">
+          <%= f.file_field :images,
+              multiple: true,
+              accept: "image/png,image/jpeg,image/jpg,image/gif,image/webp",
+              class: "block w-full text-sm text-gray-500
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-lg file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-green-50 file:text-green-700
+                      hover:file:bg-green-100
+                      cursor-pointer",
+              onchange: "previewImages(this)" %>
+          <p class="mt-2 text-xs text-gray-500">
+            Upload multiple images (JPEG, PNG, GIF, WebP). Max 5MB per image.<br>
+            First image will be the primary product image.
+          </p>
+        </div>
+
+        <%# Image Preview %>
+        <div id="image-preview" class="mt-4 grid grid-cols-2 gap-4 hidden">
+          <!-- Preview thumbnails will appear here -->
+        </div>
+      </div>
+
+      <%# Image Upload Tips %>
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <h4 class="font-medium text-blue-900 mb-2">📸 Image Tips:</h4>
+        <ul class="text-sm text-blue-800 space-y-1 list-disc list-inside">
+          <li>Use high-quality images (at least 800x800px)</li>
+          <li>White or neutral backgrounds work best</li>
+          <li>Show the product from different angles</li>
+          <li>Include packaging and label details</li>
+          <li>First image appears on product cards</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <%# Form Actions %>
-  <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-200">
+  <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
     <%= f.submit product.persisted? ? "Update Product" : "Create Product",
-        class: "px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold cursor-pointer" %>
+        class: "px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold cursor-pointer transition-colors" %>
     <%= link_to "Cancel", admin_products_path,
-        class: "text-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium" %>
+        class: "text-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors" %>
   </div>
 <% end %>
+
+<script>
+  // Preview uploaded images
+  function previewImages(input) {
+    const preview = document.getElementById('image-preview');
+    preview.innerHTML = '';
+
+    if (input.files && input.files.length > 0) {
+      preview.classList.remove('hidden');
+
+      Array.from(input.files).forEach((file, index) => {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          const div = document.createElement('div');
+          div.className = 'relative border border-gray-200 rounded-lg p-2';
+          div.innerHTML = `
+            <img src="${e.target.result}" class="w-full h-40 object-cover rounded">
+            <p class="mt-2 text-xs text-gray-600 truncate">${file.name}</p>
+            <span class="absolute top-1 right-1 bg-green-600 text-white text-xs px-2 py-1 rounded">
+              ${index === 0 ? 'Primary' : 'New'}
+            </span>
+          `;
+          preview.appendChild(div);
+        };
+
+        reader.readAsDataURL(file);
+      });
+    } else {
+      preview.classList.add('hidden');
+    }
+  }
+
+  // Mark image for removal
+  function removeImage(button, imageId) {
+    if (confirm('Are you sure you want to remove this image?')) {
+      const container = button.closest('.relative');
+      const input = container.querySelector('.remove-image-input[data-image-id="' + imageId + '"]');
+      input.value = imageId;
+      container.style.opacity = '0.3';
+      container.querySelector('button').textContent = 'Will be removed';
+      container.querySelector('button').disabled = true;
+    }
+  }
+</script>

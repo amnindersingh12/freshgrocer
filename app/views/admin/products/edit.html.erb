@@ -1,13 +1,168 @@
 <%# Edit Product Form %>
 <div class="p-6">
-  <div class="max-w-3xl mx-auto">
+  <div class="max-w-7xl mx-auto">
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900">Edit Product</h1>
-      <p class="text-gray-600 mt-2">Update product information</p>
+      <p class="text-gray-600 mt-2">Update product information and manage variants</p>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md p-8">
+    <%# Product Information %>
+    <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+      <h2 class="text-xl font-semibold text-gray-900 mb-6">Product Information</h2>
       <%= render 'form', product: @product %>
+    </div>
+
+    <%# Product Variants Section %>
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-xl font-semibold text-gray-900">Product Variants</h2>
+          <p class="text-sm text-gray-600 mt-1">Manage sizes, quantities, pricing, and stock levels</p>
+        </div>
+        <%= link_to new_admin_product_product_variant_path(@product),
+            class: "inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium text-sm transition-colors" do %>
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Add Variant
+        <% end %>
+      </div>
+
+      <% if @product.product_variants.with_discarded.any? %>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Variant</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% @product.product_variants.with_discarded.each do |variant| %>
+                <tr class="<%= 'bg-gray-50 opacity-60' if variant.discarded? %>">
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <span class="text-sm font-mono text-gray-600"><%= variant.sku %></span>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <span class="text-sm font-medium text-gray-900"><%= variant.variant_name %></span>
+                      <% if variant.is_combo_deal? %>
+                        <span class="ml-2 px-2 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded">Combo</span>
+                      <% end %>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <div class="flex flex-col">
+                      <span class="text-sm font-semibold text-gray-900">$<%= number_with_precision(variant.price, precision: 2) %></span>
+                      <% if variant.compare_at_price.present? && variant.compare_at_price > variant.price %>
+                        <span class="text-xs text-gray-500">
+                          <del>$<%= number_with_precision(variant.compare_at_price, precision: 2) %></del>
+                          <span class="text-green-600 font-medium ml-1">(<%= variant.discount_percentage %>% off)</span>
+                        </span>
+                      <% end %>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <span class="text-sm <%= variant.stock_quantity > 0 ? 'text-gray-900' : 'text-red-600 font-medium' %>">
+                        <%= variant.stock_quantity %>
+                      </span>
+                      <% if variant.stock_quantity == 0 %>
+                        <span class="ml-2 px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded">Out</span>
+                      <% elsif variant.stock_quantity < 10 %>
+                        <span class="ml-2 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded">Low</span>
+                      <% end %>
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <% if variant.discarded? %>
+                      <span class="inline-flex px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Archived</span>
+                    <% else %>
+                      <span class="inline-flex px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Active</span>
+                    <% end %>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div class="flex items-center justify-end space-x-3">
+                      <%= link_to "Edit", edit_admin_product_product_variant_path(@product, variant),
+                          class: "text-green-600 hover:text-green-900 font-medium" %>
+                      <% unless variant.discarded? %>
+                        <%= button_to "Archive", admin_product_product_variant_path(@product, variant),
+                            method: :delete,
+                            data: { turbo_confirm: "Archive this variant?" },
+                            class: "text-red-600 hover:text-red-900 font-medium" %>
+                      <% else %>
+                        <%= button_to "Restore", admin_product_product_variant_path(@product, variant),
+                            method: :delete,
+                            class: "text-green-600 hover:text-green-900 font-medium" %>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <%# Variants Summary %>
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-blue-600 font-medium">Total Variants</p>
+                <p class="text-2xl font-bold text-blue-900"><%= @product.product_variants.with_discarded.count %></p>
+              </div>
+              <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-green-600 font-medium">Total Stock</p>
+                <p class="text-2xl font-bold text-green-900"><%= @product.product_variants.sum(:stock_quantity) %></p>
+              </div>
+              <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-purple-600 font-medium">Combo Deals</p>
+                <p class="text-2xl font-bold text-purple-900"><%= @product.product_variants.where(is_combo_deal: true).count %></p>
+              </div>
+              <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">No variants</h3>
+          <p class="mt-1 text-sm text-gray-500">Get started by creating a new variant for this product.</p>
+          <div class="mt-6">
+            <%= link_to new_admin_product_product_variant_path(@product),
+                class: "inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium" do %>
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+              </svg>
+              Add Your First Variant
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
