@@ -39,6 +39,9 @@ jobs:
         run: bin/rails db:create db:schema:load
       - name: Tests
         run: bin/rails test
+      - name: Show test log on failure
+        if: failure()
+        run: grep -B2 -A25 -m3 -E "Error|Exception" log/test.log || tail -100 log/test.log
   audit:
     runs-on: ubuntu-latest
     steps:

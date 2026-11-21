@@ -13,7 +13,7 @@ gem 'sprockets-rails'
 gem 'pg', '~> 1.5'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '~> 6'
+gem 'puma', '>= 7.2.2'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem 'importmap-rails'
@@ -37,7 +37,7 @@ gem 'jbuilder'
 gem 'bcrypt', '~> 3.1.7'
 
 # Devise for authentication
-gem 'devise', '~> 4.9', '>= 4.9.4'
+gem 'devise', '~> 5.0', '>= 5.0.4'
 
 # Tailwind CSS for styling
 gem 'tailwindcss-rails', '~> 2.0'
