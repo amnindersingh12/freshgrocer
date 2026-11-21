@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # Role-based authorization
-  enum role: { customer: 0, admin: 1 }
+  enum :role, { customer: 0, admin: 1 }
 
   # Associations
   has_many :orders, dependent: :destroy
