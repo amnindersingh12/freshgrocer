@@ -33,6 +33,8 @@ jobs:
         with:
           ruby-version: "3.4"
           bundler-cache: true
+      - name: Build Tailwind CSS
+        run: bin/rails tailwindcss:build
       - name: Prepare database
         run: bin/rails db:create db:schema:load
       - name: Tests
