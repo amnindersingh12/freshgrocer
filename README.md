@@ -1,6 +1,6 @@
 # 🛒 FreshGrocer - Modern Grocery E-Commerce Platform
 
-A complete, production-ready grocery e-commerce application built with **Ruby on Rails 7**, **Tailwind CSS**, and **Hotwire** (Turbo + Stimulus).
+A complete, production-ready grocery e-commerce application built with **Ruby on Rails 8**, **Tailwind CSS**, and **Hotwire** (Turbo + Stimulus).
 
 ![Ruby on Rails](https://img.shields.io/badge/Rails-7.1.3-red?logo=ruby-on-rails)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?logo=postgresql)
