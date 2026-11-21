@@ -40,7 +40,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'devise', '~> 5.0', '>= 5.0.4'
 
 # Tailwind CSS for styling
-gem 'tailwindcss-rails', '~> 2.0'
+gem 'tailwindcss-rails', '~> 4.7'
 
 # Friendly URLs and slugs
 gem 'friendly_id', '~> 5.5'
