@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 3.4.0'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.1.3'
+gem 'rails', '~> 8.0.5', '>= 8.0.5.2'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -37,7 +37,7 @@ gem 'jbuilder'
 gem 'bcrypt', '~> 3.1.7'
 
 # Devise for authentication
-gem 'devise', '~> 4.9'
+gem 'devise', '~> 4.9', '>= 4.9.4'
 
 # Tailwind CSS for styling
 gem 'tailwindcss-rails', '~> 2.0'
@@ -98,5 +98,4 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
 end
