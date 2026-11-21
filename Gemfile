@@ -46,7 +46,7 @@ gem 'tailwindcss-rails', '~> 2.0'
 gem 'friendly_id', '~> 5.5'
 
 # State machines for orders
-gem 'aasm', '~> 5.5'
+gem 'aasm', '~> 6.0'
 
 # Soft deletes
 gem 'discard', '~> 1.3'
