@@ -52,7 +52,7 @@ gem 'aasm', '~> 5.5'
 gem 'discard', '~> 1.3'
 
 # Background job processing
-gem 'sidekiq', '~> 7.1'
+gem 'sidekiq', '~> 8.1'
 
 # Pagination
 gem 'kaminari', '~> 1.2'
