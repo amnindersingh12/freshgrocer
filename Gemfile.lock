@@ -171,10 +171,10 @@ GEM
       bigdecimal
       rake (~> 13.3)
     highline (3.0.1)
-    hotwire-livereload (1.4.1)
-      actioncable (>= 6.0.0)
+    hotwire-livereload (2.1.2)
+      actioncable (>= 7.0.0)
       listen (>= 3.0.0)
-      railties (>= 6.0.0)
+      railties (>= 7.0.0)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     image_processing (2.2.0)
@@ -505,7 +505,7 @@ DEPENDENCIES
   dotenv-rails (~> 3.0)
   erb_lint
   friendly_id (~> 5.5)
-  hotwire-livereload (~> 1.2)
+  hotwire-livereload (~> 2.1)
   image_processing (~> 2.2)
   importmap-rails
   jbuilder
