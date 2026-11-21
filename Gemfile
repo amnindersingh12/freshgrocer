@@ -49,7 +49,7 @@ gem 'friendly_id', '~> 5.5'
 gem 'aasm', '~> 6.0'
 
 # Soft deletes
-gem 'discard', '~> 1.3'
+gem 'discard', '~> 2.0'
 
 # Background job processing
 gem 'sidekiq', '~> 8.1'
